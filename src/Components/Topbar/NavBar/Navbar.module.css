@@ -1,0 +1,81 @@
+.navbarMain {
+    display: flex;
+}
+
+.navbarListsContainer {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    list-style: none;
+    padding: 15px;
+    border-radius: 0 20px 20px 0;
+    background-color: #7db2ed;
+}
+/* 
+.navbarLists {
+    width: 105px;
+    margin: 8px;
+    padding: 5px;
+    border: 1px solid lightgray;
+    border-radius: 10px;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    background-color: lightgray;
+    color: #7db2ed;
+} */
+
+.navbarLink {
+    text-decoration: none;
+    color: #7db2ed;
+    width: 105px;
+    margin: 8px;
+    padding: 10px 5px;
+    border: 1px solid lightgray;
+    border-radius: 10px;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    background-color: lightgray;
+    color: #7db2ed;
+}
+
+.navbarLink:hover {
+    animation: hoverEffect 0.5s ease-out forwards;
+}
+
+.navbarLink:hover > .navbarListIcon {
+    animation: backgroundChange 0.5s ease-out forwards;
+}
+
+@keyframes backgroundChange {
+    100% {
+        background-color: white;
+    }
+}
+
+@keyframes hoverEffect {
+    100% {
+        transform: translate(30px, 0);
+        background-color: white;
+        color: #7db2ed;
+    }
+}
+
+.navbarList {
+    text-decoration: none;
+    color: #5b9eeb;
+    margin: 5px;
+}
+
+.navbarListIcon {
+    font-size: 25px;
+    color: #7db2ed;
+}
+
+.xiamoiImg {
+    width: 30px;
+}

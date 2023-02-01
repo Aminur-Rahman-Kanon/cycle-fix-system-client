@@ -1,23 +1,20 @@
-import logo from './logo.svg';
+import { Routes, Route } from 'react-router-dom';
+import SystemMain from './Components/SystemMain/systemMain';
+import NoMatchRoute from './Components/NoMatchRoute/NoMathcRoute';
+import Topbar from './Components/Topbar/topbar';
+import Bookings from './Components/Bookings/bookings';
 import './App.css';
+
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Topbar />
+      <Routes>
+        <Route path='/' element={<SystemMain />}/>
+        <Route path='*' element={<NoMatchRoute />}/>
+        <Route path='/booking' element={<Bookings />}/>
+      </Routes>
     </div>
   );
 }

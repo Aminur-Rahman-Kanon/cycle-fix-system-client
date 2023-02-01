@@ -1,0 +1,106 @@
+.systemMain {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.systemStatusMain {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 180px;
+    border: 1px solid green;
+    border-radius: 10px;
+    background-color: green;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.systemMainContainerMain {
+    width: 100%;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.systemMainContainerH1 {
+    color: #7db2ed;
+}
+
+.systemMainWelcomeMsgMain {
+    width: 100%;
+    margin: 35px auto;
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    align-items: center;
+    color: #7db2ed;
+    letter-spacing: 1px;
+}
+
+.notificationTableMain {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.notificationTable {
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.noticationTableColumns, .noticationTableRow {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.notificationTableColumnHeader {
+    width: 250px;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    margin: 2px;
+    padding: 0 20px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: #7db2ed;
+    color: rgb(255, 255, 255);
+}
+
+.notificationTableColumn {
+    width: 150px;
+    margin: 2px;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #7db2ed;
+    color: rgb(255, 255, 255);
+}
+
+.checkLink {
+    height: 53px;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: rgb(226, 226, 226);
+    cursor: pointer;
+}
+
+.checkLink:hover {
+    color: white;
+}
