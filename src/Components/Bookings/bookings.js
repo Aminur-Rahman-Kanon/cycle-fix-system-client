@@ -8,7 +8,7 @@ const Bookings = () => {
     const [error, setError] = useState(false)
 
     useEffect(() => {
-        fetch('http://localhost:8000/bookings', {
+        fetch('https://cycle-fix-system-server.onrender.com/bookings', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
