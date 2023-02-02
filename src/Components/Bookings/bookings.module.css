@@ -1,5 +1,10 @@
 .bookingMain {
+    position: relative;
     width: 100%;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .bookingContainerMain {
@@ -58,6 +63,11 @@
     border-radius: 10px;
     background-color: #7db2ed;
     color: white;
+    cursor: pointer;
+}
+
+.bookingContainerColumn:hover {
+    background-color: #65a1e6;
 }
 
 .bookingContainerH4 {
@@ -68,4 +78,155 @@
     width: 100%;
     margin: 5px;
     text-align: left;
+}
+
+.searchBarMain {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.searchInputContainer {
+    width: 450px;
+    height: 50px;
+    border: 1px solid grey;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.582);
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.searchInputIcon {
+    width: 30px;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 10px;
+    background-color: #7db2ed;
+    color: white;
+}
+
+.searchInput {
+    width: 85%;
+    height: 40px;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    color: #7db2ed;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.searchInput::placeholder {
+    color: #7db2ed;
+}
+
+.orderDetailsMain {
+    width: 90%;
+    height: 750px;
+    position: fixed;
+    top: 50px;
+    left: 100px;
+    overflow: scroll;
+    background-color: white;
+    border: 1px solid rgb(202, 202, 202);
+    border-radius: 5px;
+}
+
+.orderDetailsContainer {
+    width: 100%;
+    margin: 10px auto;
+    padding: 10px;
+    box-sizing: border-box;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.orderDetailsRows {
+    width: 100%;
+    margin: 10px auto;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+.orderDetailsRow {
+    width: 400px;
+    margin: 20px;
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    align-items: center;
+
+}
+
+.orderDetailsColumns {
+    width: 300px;
+}
+
+.orderDetailsColumn {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.orderDetailsHeaderH4 {
+    width: 300px;
+    padding: 10px;
+    margin: 8px;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    background-color: #7db2ed;
+    color: white;
+}
+
+.orderDetailsH4, .orderDetailsP {
+    margin: 10px;
+}
+
+.orderDetailsService {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.orderDetailsServiceHeader {
+    width: 300px;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    background-color: #7db2ed;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btnContainer {
+    width: 100%;
+    margin: 20px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.printBtn {
+    height: 50px;
+    width: 200px;
+    margin: 20px;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    background-color: #7db2ed;
+    color: rgb(233, 231, 231);
+    cursor: pointer;
+}
+
+.printBtn:hover {
+    background-color: #65a1e6;
+    color: white;
 }
