@@ -1,10 +1,12 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, createRef } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { faMagnifyingGlass, faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import styles from './bookings.module.css';
 import Spinners from "../Others/Spinners/spinners";
+import logo from '../../Assets/logo.png';
 
 const Bookings = () => {
+
 
     const timeOutRef = useRef(null);
 
@@ -19,6 +21,8 @@ const Bookings = () => {
     const [showOrders, setShowOrders] = useState(false);
 
     const [orderDetails, setOrderDetails] = useState({});
+
+    const [sliceIndex, setSliceIndex] = useState(0);
 
     useEffect(() => {
         setSpinner(true)
@@ -40,11 +44,31 @@ const Bookings = () => {
         return () => clearTimeout(timeOutRef.current)
     }, [ searchCustomer ])
 
-    let displayService = null;
+    const objKeys = Object.keys(bookings);
 
-    if (Object.keys(bookings).length > 0){
-        displayService = Object.keys(bookings).map(day => {
-            return <div key={day} className={styles.bookingContainerRow}>
+    if (!sliceIndex){
+        objKeys.map((item, index) => {
+            if (new Date('Feb 06 2023').toDateString() === item) {
+                setSliceIndex(index);
+            }
+        })
+    }
+
+    const totalPage = Math.ceil(objKeys.length-3);
+
+    let displayService = <div className={styles.bookingContainerRow} >
+        <div className={styles.bookingContainerHeaderColumn}>
+            <h3 style={{color: 'white'}}>{new Date().toDateString()}</h3>
+        </div>
+        <div className={styles.bookingContainerColumns} style={{flexFlow: 'column', justifyContent: 'center', color: 'white'}}>
+            <h1>No bookings today</h1>
+            <button className={styles.addBookingBtn}>Add booking</button>
+        </div>
+    </div>
+
+    if (Object.keys(bookings).length > 0 && sliceIndex){
+        displayService = objKeys.slice(sliceIndex, sliceIndex + 3).map(day => {
+            return <div key={day} className={styles.bookingContainerRow} >
                 <div className={styles.bookingContainerHeaderColumn}>
                     <h3 style={{color: 'white'}}>{day}</h3>
                 </div>
@@ -54,7 +78,7 @@ const Bookings = () => {
                             setOrderDetails(date)
                             setShowOrders(true);
                         }}>
-                            <h4 className={styles.bookingContainerH4}>Service</h4> 
+                            {/* <h4 className={styles.bookingContainerH4}>Service</h4>  */}
                             <p style={{margin: '5px', fontWeight: '600'}}>{date.service}</p>
                             <p className={styles.bookingContainerP}>{`Date: ${date.date}`}</p>
                             <p className={styles.bookingContainerP}>{`Auth code: ${date.authCode}`}</p>
@@ -84,12 +108,19 @@ const Bookings = () => {
 
         return <div className={styles.orderDetailsMain}>
             <div className={styles.orderDetailsContainer}>
+                <img src={logo} alt="cycle fix" style={{width: '100px'}}/>
                 <div className={styles.orderDetailsRows}>
                     <div className={styles.orderDetailsRow}>
-                        <h4 className={styles.orderDetailsHeaderH4}>Service: {orderDetails.service}</h4>
-                        <div className={styles.orderDetailsColumn}>
-                            <h4 className={styles.orderDetailsH4}>Date:</h4>
-                            <p className={styles.orderDetailsP}>{orderDetails.date}</p>
+                        <h4 className={styles.orderDetailsHeaderH4}>Service</h4>
+                        <div className={styles.orderDetailsColumns}>
+                            <div className={styles.orderDetailsColumn} style={{justifyContent:'center'}}>
+                                <p className={styles.orderDetailsP}>{orderDetails.service}</p>
+                            </div>
+                            <div className={styles.orderDetailsColumn}>
+                                <h4 className={styles.orderDetailsH4}>Date:</h4>
+                                <p className={styles.orderDetailsP}>{orderDetails.date}</p>
+                            </div>
+
                         </div>
                     </div>
                     <div className={styles.orderDetailsRow}>
@@ -214,6 +245,8 @@ const Bookings = () => {
             </div>
         }
     }
+
+    console.log(sliceIndex);
     
     return (
         <>
@@ -235,6 +268,20 @@ const Bookings = () => {
             
             <div className={styles.bookingContainerMain}>
                 <div className={styles.bookingContainer}>
+                    <div className={styles.navigationMain}>
+                        <button className={styles.navigationIconContainer}
+                                onClick={() => setSliceIndex(sliceIndex -1)}
+                                disabled={ sliceIndex <= 1 ? true : false }
+                                >
+                            <FontAwesomeIcon icon={ faAngleLeft } className={styles.navigationIcon}/>
+                        </button>
+                        <button className={styles.navigationIconContainer}
+                                onClick={() => setSliceIndex(sliceIndex +1)}
+                                disabled={sliceIndex === (totalPage -3) ? true : false}
+                                >
+                            <FontAwesomeIcon icon={ faAngleRight } className={styles.navigationIcon}/>
+                        </button>
+                    </div>
                     { noUserFound }
                     { searchCustomer ? searchCustomerDisplay : displayService}
                 </div>

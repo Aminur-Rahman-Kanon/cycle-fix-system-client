@@ -77,7 +77,7 @@
 .bookingContainerP {
     width: 100%;
     margin: 5px;
-    text-align: left;
+    /* text-align: left; */
 }
 
 .searchBarMain {
@@ -155,8 +155,8 @@
 }
 
 .orderDetailsRow {
-    width: 400px;
-    margin: 20px;
+    width: 350px;
+    margin: 5px;
     display: flex;
     flex-flow: column;
     justify-content: flex-start;
@@ -165,14 +165,19 @@
 }
 
 .orderDetailsColumns {
-    width: 300px;
+    width: 200px;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: flex-start;
 }
 
 .orderDetailsColumn {
     width: 100%;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
+    /* text-align: ; */
 }
 
 .orderDetailsHeaderH4 {
@@ -227,6 +232,55 @@
 }
 
 .printBtn:hover {
+    background-color: #65a1e6;
+    color: white;
+}
+
+.navigationMain {
+    width: 100%;
+    padding: 15px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navigationIconContainer {
+    width: 40px;
+    height: 40px;
+    border: 1px solid lightgray;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(110, 110, 110, 0.116);
+    color: #7db2ed;
+    cursor: pointer;
+}
+
+.navigationIconContainer:hover {
+    background-color: rgba(110, 110, 110, 0.171);
+    color: #65a1e6;
+}
+
+.navigationIconContainer:disabled {
+    opacity: 0.5;
+    cursor: default;
+}
+
+.addBookingBtn {
+    height: 45px;
+    width: 200px;
+    margin: 20px auto;
+    border: 1px solid #7db2ed;
+    border-radius: 5px;
+    background-color: #7db2ed;
+    color: rgb(243, 243, 243);
+    cursor: pointer;
+}
+
+
+.addBookingBtn:hover {
     background-color: #65a1e6;
     color: white;
 }
