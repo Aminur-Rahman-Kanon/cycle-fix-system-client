@@ -268,6 +268,12 @@
     cursor: default;
 }
 
+.navigationIconContainer:disabled:hover {
+    background-color: rgba(110, 110, 110, 0.116);
+    color: #7db2ed;
+    opacity: 0.5;
+}
+
 .addBookingBtn {
     height: 45px;
     width: 200px;

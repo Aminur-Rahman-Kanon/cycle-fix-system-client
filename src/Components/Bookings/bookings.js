@@ -4,9 +4,12 @@ import { faMagnifyingGlass, faAngleLeft, faAngleRight } from '@fortawesome/free-
 import styles from './bookings.module.css';
 import Spinners from "../Others/Spinners/spinners";
 import logo from '../../Assets/logo.png';
+import useScanDetection from 'use-scan-detection';
+import Barcode from "react-barcode";
 
 const Bookings = () => {
 
+    const [barcode, setBarcode] = useState('');
 
     const timeOutRef = useRef(null);
 
@@ -24,9 +27,14 @@ const Bookings = () => {
 
     const [sliceIndex, setSliceIndex] = useState(0);
 
+    useScanDetection({
+        onComplete: setBarcode,
+        minLength: 5
+    })
+
     useEffect(() => {
         setSpinner(true)
-        fetch('https://cycle-fix-system-server.onrender.com/bookings', {
+        fetch('https://cycle-fix-system-server/bookings', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -40,33 +48,30 @@ const Bookings = () => {
         });
     }, [])
 
+    console.log(bookings);
+
     useEffect(() => {
         return () => clearTimeout(timeOutRef.current)
     }, [ searchCustomer ])
 
     const objKeys = Object.keys(bookings);
 
-    if (!sliceIndex){
-        objKeys.map((item, index) => {
-            if (new Date().toDateString() === item) {
-                setSliceIndex(index);
-            }
-        })
-    }
+    useEffect(() => {
+        if (!sliceIndex){
+            objKeys.map((item, index) => {
+                if (new Date().toDateString() === item) {
+                    setSliceIndex(index);
+                }
+            })
+        }
+    }, [bookings])
+
 
     const totalPage = Math.ceil(objKeys.length-3);
 
-    let displayService = <div className={styles.bookingContainerRow} >
-        <div className={styles.bookingContainerHeaderColumn}>
-            <h3 style={{color: 'white'}}>{new Date().toDateString()}</h3>
-        </div>
-        <div className={styles.bookingContainerColumns} style={{flexFlow: 'column', justifyContent: 'center', color: 'white'}}>
-            <h1>No bookings today</h1>
-            <button className={styles.addBookingBtn}>Add booking</button>
-        </div>
-    </div>
+    let displayService = null;
 
-    if (Object.keys(bookings).length > 0 && sliceIndex){
+    if (objKeys.length > 0 && sliceIndex > 0){
         displayService = objKeys.slice(sliceIndex, sliceIndex + 3).map(day => {
             return <div key={day} className={styles.bookingContainerRow} >
                 <div className={styles.bookingContainerHeaderColumn}>
@@ -96,6 +101,17 @@ const Bookings = () => {
                 </div>
             </div>
         })
+    }
+    else {
+        displayService = <div className={styles.bookingContainerRow} >
+            <div className={styles.bookingContainerHeaderColumn}>
+                <h3 style={{color: 'white'}}>{new Date().toDateString()}</h3>
+            </div>
+            <div className={styles.bookingContainerColumns} style={{flexFlow: 'column', justifyContent: 'center', color: 'white'}}>
+                <h1>No bookings today</h1>
+                <button className={styles.addBookingBtn}>Add booking</button>
+            </div>
+        </div>
     }
 
     const closeOrderDetails = () => {
@@ -187,6 +203,10 @@ const Bookings = () => {
                         </div>
                     </div>
 
+                    <div className={styles.orderDetailsRows} style={{margin: '20px'}}>
+                        <Barcode value={orderDetails.email}/>
+                    </div>
+
                 </div>
 
                 <div className={styles.btnContainer}>
@@ -245,8 +265,6 @@ const Bookings = () => {
             </div>
         }
     }
-
-    console.log(sliceIndex);
     
     return (
         <>
