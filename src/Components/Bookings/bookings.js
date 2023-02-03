@@ -34,7 +34,7 @@ const Bookings = () => {
 
     useEffect(() => {
         setSpinner(true)
-        fetch('https://cycle-fix-system-server/bookings', {
+        fetch('https://cycle-fix-system-server.onrender.com/bookings', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
