@@ -48,7 +48,7 @@ const Bookings = () => {
 
     if (!sliceIndex){
         objKeys.map((item, index) => {
-            if (new Date('Feb 06 2023').toDateString() === item) {
+            if (new Date().toDateString() === item) {
                 setSliceIndex(index);
             }
         })
