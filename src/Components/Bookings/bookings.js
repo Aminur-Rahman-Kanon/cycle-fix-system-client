@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, createRef } from "react";
+import React, { useEffect, useState, useRef, useMemo } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass, faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import styles from './bookings.module.css';
@@ -6,12 +6,15 @@ import Spinners from "../Others/Spinners/spinners";
 import logo from '../../Assets/logo.png';
 import useScanDetection from 'use-scan-detection';
 import Barcode from "react-barcode";
+import ReactToPrint from "react-to-print";
 
 const Bookings = () => {
 
     const [barcode, setBarcode] = useState('');
 
     const timeOutRef = useRef(null);
+
+    const documentToPrint = useRef(null);
 
     const [bookings, setBookings] = useState({});
 
@@ -25,7 +28,7 @@ const Bookings = () => {
 
     const [orderDetails, setOrderDetails] = useState({});
 
-    const [sliceIndex, setSliceIndex] = useState(0);
+    const [sliceIndex, setSliceIndex] = useState(null);
 
     useScanDetection({
         onComplete: setBarcode,
@@ -48,30 +51,27 @@ const Bookings = () => {
         });
     }, [])
 
-    console.log(bookings);
-
     useEffect(() => {
         return () => clearTimeout(timeOutRef.current)
     }, [ searchCustomer ])
 
     const objKeys = Object.keys(bookings);
 
-    useEffect(() => {
-        if (!sliceIndex){
-            objKeys.map((item, index) => {
-                if (new Date().toDateString() === item) {
-                    setSliceIndex(index);
-                }
-            })
-        }
-    }, [bookings])
-
+    if (!sliceIndex){
+        objKeys.map((item, index) => {
+            console.log(item);
+            console.log(new Date().toDateString());
+            if (new Date().toDateString() === item) {
+                setSliceIndex(index);
+            }
+        })
+    }
 
     const totalPage = Math.ceil(objKeys.length-3);
 
     let displayService = null;
 
-    if (objKeys.length > 0 && sliceIndex > 0){
+    if (objKeys.length > 0 && sliceIndex){
         displayService = objKeys.slice(sliceIndex, sliceIndex + 3).map(day => {
             return <div key={day} className={styles.bookingContainerRow} >
                 <div className={styles.bookingContainerHeaderColumn}>
@@ -118,25 +118,92 @@ const Bookings = () => {
         setShowOrders(false);
     }
 
+    const applyJob = (email) => {
+        fetch('https://cycle-fix-system-server.onrender.com/apply-job', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                email,
+                status: 'Processing'
+            })
+        }).then(res => res.json()).then(data => console.log('success')).catch(err => console.log('error'))
+    }
+
+    const completeJob = (email) => {
+        fetch('https://cycle-fix-system-server.onrender.com/complete-job', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                email,
+                status: 'Completed'
+            })
+        }).then(res => res.json()).then(data => console.log('success')).catch(err => console.log('error'))
+    }
+
+    const deleteJob = (email) => {
+        fetch('https://cycle-fix-system-server.onrender.com/delete-job', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                email,
+            })
+        }).then(res => res.json()).then(data => console.log('success')).catch(err => console.log('error'))
+    }
+
     const OrderDetails = ({showOrders, orderDetails}) => {
         
         if (!showOrders) return;
 
+        console.log(orderDetails);
+        
+        let statusStyle = null;
+
+        if (orderDetails.status === "Completed"){
+            statusStyle = {
+                backgroundColor: 'darkgreen',
+                color: 'white',
+                borderRadius: '5px'
+            }
+        }
+        else if (orderDetails.status === 'Processing'){
+            statusStyle = {
+                backgroundColor: '#4d74ad',
+                color: 'white',
+                borderRadius: '5px'
+            }
+        }
+        else {
+            statusStyle = {
+                backgroundColor: '#7575768f',
+                color: 'white',
+                borderRadius: '5px'
+            }   
+        }
+
         return <div className={styles.orderDetailsMain}>
-            <div className={styles.orderDetailsContainer}>
+            <div className={styles.orderDetailsContainer} ref={documentToPrint}>
                 <img src={logo} alt="cycle fix" style={{width: '100px'}}/>
                 <div className={styles.orderDetailsRows}>
                     <div className={styles.orderDetailsRow}>
                         <h4 className={styles.orderDetailsHeaderH4}>Service</h4>
                         <div className={styles.orderDetailsColumns}>
-                            <div className={styles.orderDetailsColumn} style={{justifyContent:'center'}}>
+                            <div className={styles.orderDetailsColumn}>
                                 <p className={styles.orderDetailsP}>{orderDetails.service}</p>
                             </div>
                             <div className={styles.orderDetailsColumn}>
                                 <h4 className={styles.orderDetailsH4}>Date:</h4>
                                 <p className={styles.orderDetailsP}>{orderDetails.date}</p>
                             </div>
-
+                            <div className={styles.orderDetailsColumn} style={statusStyle}>
+                                <h4 className={styles.orderDetailsH4}>Status:</h4>
+                                <p className={styles.orderDetailsP}>{orderDetails.status}</p>
+                            </div>
                         </div>
                     </div>
                     <div className={styles.orderDetailsRow}>
@@ -156,11 +223,11 @@ const Bookings = () => {
                             </div>
                             <div className={styles.orderDetailsColumn}>
                                 <h4 className={styles.orderDetailsH4}>Paid:</h4>
-                                <p className={styles.orderDetailsP}>£25</p>
+                                <p className={styles.orderDetailsP}>£{orderDetails.deposit || '25'}</p>
                             </div>
                             <div className={styles.orderDetailsColumn}>
                                 <h4 className={styles.orderDetailsH4}>Due:</h4>
-                                <p className={styles.orderDetailsP}>£25</p>
+                                <p className={styles.orderDetailsP}>£{orderDetails.due || '25'}</p>
                             </div>
                         </div>
                     </div>
@@ -203,17 +270,21 @@ const Bookings = () => {
                         </div>
                     </div>
 
-                    <div className={styles.orderDetailsRows} style={{margin: '20px'}}>
-                        <Barcode value={orderDetails.email}/>
+                    <div className={styles.orderDetailsRows} style={{marginTop: '50px'}}>
+                        <div>
+                            <Barcode value={orderDetails.email} width={1}/>
+                        </div>
                     </div>
 
                 </div>
-
-                <div className={styles.btnContainer}>
-                    <button className={styles.printBtn} onClick={ closeOrderDetails }>Close</button>
-                    <button className={styles.printBtn}>Print</button>
-
-                </div>
+            </div>
+            <div className={styles.btnContainer}>
+                <ReactToPrint trigger={() => <button className={styles.printBtn}>Apply job and print</button>}
+                              content={() => documentToPrint.current}
+                              onAfterPrint={() => applyJob(orderDetails.email) }/>
+                <button className={styles.printBtn} onClick={() => completeJob(orderDetails.email) }>Mark as complete</button>
+                <button className={styles.printBtn} onClick={() => deleteJob(orderDetails.email)}>Delete booking</button>
+                <button className={styles.printBtn} onClick={() => closeOrderDetails(orderDetails.email) }>Close</button>
             </div>
         </div>
     }
@@ -227,8 +298,8 @@ const Bookings = () => {
 
     let searchCustomerDisplay = null;
     
-    if (searchCustomer && !noUserFound){
-        searchCustomerDisplay = Object.values(bookings).map(item => Object.values(item).filter(nesItem => nesItem.email === searchCustomer)).map(result => result.map(el => {
+    if (searchCustomer && !noUserFound || barcode){
+        searchCustomerDisplay = Object.values(bookings).map(item => Object.values(item).filter(nesItem => nesItem.email === searchCustomer || barcode)).map(result => result.map(el => {
             return <div key={el.authCode} className={styles.bookingContainerRow}>
                 <div className={styles.bookingContainerHeaderColumn}>
                     <h3 style={{color: 'white'}}>{el.date}</h3>

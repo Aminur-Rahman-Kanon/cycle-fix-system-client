@@ -165,7 +165,7 @@
 }
 
 .orderDetailsColumns {
-    width: 200px;
+    width: 300px;
     display: flex;
     flex-flow: column;
     justify-content: center;
@@ -181,7 +181,8 @@
 }
 
 .orderDetailsHeaderH4 {
-    width: 300px;
+    text-align: left;
+    width: 275px;
     padding: 10px;
     margin: 8px;
     border: 1px solid lightgray;
@@ -227,13 +228,12 @@
     border: 1px solid lightgray;
     border-radius: 5px;
     background-color: #7db2ed;
-    color: rgb(233, 231, 231);
+    color: white;
     cursor: pointer;
 }
 
 .printBtn:hover {
     background-color: #65a1e6;
-    color: white;
 }
 
 .navigationMain {
