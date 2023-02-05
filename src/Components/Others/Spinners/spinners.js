@@ -14,7 +14,8 @@ const styles = {
     display: 'flex',
     flexFlow: 'column',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    zIndex: '700'
 }
 
 

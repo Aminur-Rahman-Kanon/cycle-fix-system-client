@@ -7,6 +7,10 @@ import logo from '../../Assets/logo.png';
 import useScanDetection from 'use-scan-detection';
 import Barcode from "react-barcode";
 import ReactToPrint from "react-to-print";
+import Modal from "../Others/Modal/modal";
+import Backdrop from "../Others/Backdrop/backdrop";
+import StatusMsg from "../Others/StatusMsg/statusMsg";
+
 
 const Bookings = () => {
 
@@ -29,6 +33,12 @@ const Bookings = () => {
     const [orderDetails, setOrderDetails] = useState({});
 
     const [sliceIndex, setSliceIndex] = useState(null);
+
+    const [actionStatus, setActionStatus] = useState('');
+
+    const [modal, setModal] = useState(false);
+
+    const [backdrop, setBackdrop] = useState(false);
 
     useScanDetection({
         onComplete: setBarcode,
@@ -59,8 +69,6 @@ const Bookings = () => {
 
     if (!sliceIndex){
         objKeys.map((item, index) => {
-            console.log(item);
-            console.log(new Date().toDateString());
             if (new Date().toDateString() === item) {
                 setSliceIndex(index);
             }
@@ -71,6 +79,34 @@ const Bookings = () => {
 
     let displayService = null;
 
+    const statusStyleHandler = (service) => {
+        let statusStyle = null;
+        if (service === "Completed"){
+            return statusStyle = {
+                backgroundColor: '#166c16',
+                color: 'white',
+                border: '1px solid darkgreen',
+                borderRadius: '5px'
+            }
+        }
+        else if (service === 'Processing'){
+            return statusStyle = {
+                backgroundColor: '#4d74ad',
+                color: 'white',
+                border: '1px solid #4d74ad',
+                borderRadius: '5px'
+            }
+        }
+        else {
+            return statusStyle = {
+                backgroundColor: '#7575768f',
+                color: 'white',
+                border: '1px solid transparent',
+                borderRadius: '5px'
+            }   
+        }
+    }
+
     if (objKeys.length > 0 && sliceIndex){
         displayService = objKeys.slice(sliceIndex, sliceIndex + 3).map(day => {
             return <div key={day} className={styles.bookingContainerRow} >
@@ -79,11 +115,13 @@ const Bookings = () => {
                 </div>
                 <div className={styles.bookingContainerColumns}>
                     {Object.values(bookings[day]).map(date => {
-                        return <div key={date.authCode} className={styles.bookingContainerColumn} onClick={() => {
-                            setOrderDetails(date)
-                            setShowOrders(true);
-                        }}>
-                            {/* <h4 className={styles.bookingContainerH4}>Service</h4>  */}
+                        const statusStyle = statusStyleHandler(date.status)
+                        return <div key={date.authCode} className={styles.bookingContainerColumn}
+                                    style={statusStyle}
+                                    onClick={() => {
+                                        setOrderDetails(date)
+                                        setShowOrders(true);
+                                    }}>
                             <p style={{margin: '5px', fontWeight: '600'}}>{date.service}</p>
                             <p className={styles.bookingContainerP}>{`Date: ${date.date}`}</p>
                             <p className={styles.bookingContainerP}>{`Auth code: ${date.authCode}`}</p>
@@ -96,6 +134,7 @@ const Bookings = () => {
                             <p className={styles.bookingContainerP}>{`Name: ${date.firstName} ${date.lastName}`}</p>
                             <p className={styles.bookingContainerP}>{`Email: ${date.email}`}</p>
                             <p className={styles.bookingContainerP}>{`Phone: ${date.phone}`}</p>
+                            <p className={styles.bookingContainerP} >Status: {date.status ? date.status : 'Pending'}</p>
                         </div>
                     })}
                 </div>
@@ -128,7 +167,22 @@ const Bookings = () => {
                 email,
                 status: 'Processing'
             })
-        }).then(res => res.json()).then(data => console.log('success')).catch(err => console.log('error'))
+        }).then(res => res.json()).then(data => {
+            if (data.status === 'success'){
+                setActionStatus('job applied');
+                setBackdrop(true);
+                setModal(true);
+            }
+            else if (data.status === 'error'){
+                setActionStatus(data.status);
+                setModal(true);
+                setBackdrop(true);
+            }
+        }).catch(err => {
+            setActionStatus('network error')
+            setModal(true);
+            setBackdrop(true);
+        })
     }
 
     const completeJob = (email) => {
@@ -141,7 +195,23 @@ const Bookings = () => {
                 email,
                 status: 'Completed'
             })
-        }).then(res => res.json()).then(data => console.log('success')).catch(err => console.log('error'))
+        }).then(res => res.json()).then(data => {
+            if (data.status === 'success'){
+                console.log(data.status);
+                setActionStatus('job completed');
+                setBackdrop(true);
+                setModal(true);
+            }
+            else if (data.status === 'error'){
+                setActionStatus(data.status);
+                setModal(true);
+                setBackdrop(true);
+            }
+        }).catch(err => {
+            setActionStatus('network error')
+            setModal(true);
+            setBackdrop(true);
+        })
     }
 
     const deleteJob = (email) => {
@@ -153,38 +223,33 @@ const Bookings = () => {
             body: JSON.stringify({
                 email,
             })
-        }).then(res => res.json()).then(data => console.log('success')).catch(err => console.log('error'))
+        }).then(res => res.json()).then(data => {
+            if (data.status === 'success'){
+                setActionStatus('job deleted');
+                setBackdrop(true);
+                setModal(true);
+            }
+            else if (data.status === 'error'){
+                setActionStatus(data.status);
+                setModal(true);
+                setBackdrop(true);
+            }
+        }).catch(err => {
+            setActionStatus('network error')
+            setModal(true);
+            setBackdrop(true);
+        })
+    }
+
+    const errorHandler = () => {
+        setActionStatus('');
+        setModal(false);
+        setBackdrop(false);
     }
 
     const OrderDetails = ({showOrders, orderDetails}) => {
-        
         if (!showOrders) return;
-
-        console.log(orderDetails);
-        
-        let statusStyle = null;
-
-        if (orderDetails.status === "Completed"){
-            statusStyle = {
-                backgroundColor: 'darkgreen',
-                color: 'white',
-                borderRadius: '5px'
-            }
-        }
-        else if (orderDetails.status === 'Processing'){
-            statusStyle = {
-                backgroundColor: '#4d74ad',
-                color: 'white',
-                borderRadius: '5px'
-            }
-        }
-        else {
-            statusStyle = {
-                backgroundColor: '#7575768f',
-                color: 'white',
-                borderRadius: '5px'
-            }   
-        }
+        const statusStyle = statusStyleHandler(orderDetails.status)
 
         return <div className={styles.orderDetailsMain}>
             <div className={styles.orderDetailsContainer} ref={documentToPrint}>
@@ -202,7 +267,7 @@ const Bookings = () => {
                             </div>
                             <div className={styles.orderDetailsColumn} style={statusStyle}>
                                 <h4 className={styles.orderDetailsH4}>Status:</h4>
-                                <p className={styles.orderDetailsP}>{orderDetails.status}</p>
+                                <p className={styles.orderDetailsP}>{orderDetails.status ? orderDetails.status : 'Pending'}</p>
                             </div>
                         </div>
                     </div>
@@ -282,7 +347,10 @@ const Bookings = () => {
                 <ReactToPrint trigger={() => <button className={styles.printBtn}>Apply job and print</button>}
                               content={() => documentToPrint.current}
                               onAfterPrint={() => applyJob(orderDetails.email) }/>
-                <button className={styles.printBtn} onClick={() => completeJob(orderDetails.email) }>Mark as complete</button>
+                <button className={styles.printBtn}
+                        onClick={() => completeJob(orderDetails.email) }
+                        disabled={orderDetails.status === 'Completed'}
+                        >Mark as complete</button>
                 <button className={styles.printBtn} onClick={() => deleteJob(orderDetails.email)}>Delete booking</button>
                 <button className={styles.printBtn} onClick={() => closeOrderDetails(orderDetails.email) }>Close</button>
             </div>
@@ -339,7 +407,13 @@ const Bookings = () => {
     
     return (
         <>
+        <Backdrop backdrop={backdrop}/>
         <Spinners spinner={ spinner } />
+        <Modal modal={modal}>
+            <StatusMsg status={actionStatus}
+                       jobStatusHandler={ () => window.location.reload() }
+                       errorHandler={ errorHandler } />
+        </Modal>
         <div className={styles.bookingMain}>
             <OrderDetails showOrders={showOrders} orderDetails={orderDetails}/>
             <h1 style={{color: '#7db2ed'}}>Bookings</h1>

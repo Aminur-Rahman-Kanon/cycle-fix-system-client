@@ -1,0 +1,15 @@
+.modalMain {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(116, 114, 114);
+    border-radius: 10px;
+    z-index: 1000;
+    text-align: center;
+    letter-spacing: 1px;
+}

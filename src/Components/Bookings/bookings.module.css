@@ -36,7 +36,8 @@
     flex-flow: column;
     justify-content: center;
     align-items: center;
-    background-color: #4d74adf5;
+    /* background-color: #4d74adf5; */
+    background-color: #474E68;
 }
 
 .bookingContainerColumns {
@@ -177,7 +178,6 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    /* text-align: ; */
 }
 
 .orderDetailsHeaderH4 {
@@ -234,6 +234,15 @@
 
 .printBtn:hover {
     background-color: #65a1e6;
+}
+
+.printBtn:disabled {
+    opacity: 0.5;
+    cursor: default;
+}
+
+.printBtn:disabled:hover {
+    background-color: #7db2ed;
 }
 
 .navigationMain {
