@@ -1,0 +1,226 @@
+.addBooking-main {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-container-main {
+    width: 100%;
+    padding: 25px;
+    box-sizing: border-box;
+    border: 1px solid lightgray;
+    border-radius: 10px;
+    background-color: gray;
+}
+
+.form-input-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.form-input-group {
+    width: 100%;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-input-groups {
+    width: 50%;
+    padding: 15px;
+    box-sizing: border-box;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.input-details-form {
+    width: 100%;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.input-details-input-container {
+    width: 350px;
+    margin: 10px 0;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+label {
+    color: lightgray;
+    width: 60px;
+    text-align: left;
+    margin-right: 20px;
+}
+
+.details-input {
+    width: 280px;
+    height: 35px;
+    padding: 0 10px;
+    border: 1px solid transparent;
+    outline: none;
+    border-radius: 5px;
+}
+
+.details-textarea {
+    width: 280px;
+    padding: 10px;
+    border: 1px solid transparent;
+    outline: none;
+    border-radius: 5px;
+}
+
+.form-input-service {
+    width: 350px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.select-service {
+    width: 280px;
+    height: 40px;
+    border: 1px solid grey;
+    outline: none;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.react-calendar {
+    min-width: 455px;
+    min-height: 350px;
+    background-color: #3C4048;
+    padding: 20px;
+    box-sizing: border-box;
+    border-radius: 10px;
+}
+
+.react-calendar__navigation__label {
+    width: 135px;
+    height: 40px;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    color: lightgray;
+    font-size: 16px;
+}
+
+.react-calendar__navigation__prev-button, .react-calendar__navigation__next-button {
+    margin: 0 10px;
+    font-size: 24px;
+    background-color: transparent;
+    color: lightgray;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.react-calendar__navigation__prev2-button, .react-calendar__navigation__next2-button {
+    display: none;
+}
+
+.react-calendar__tile--now {
+    background-color: #7db2ed!important;
+    color: white!important;
+}
+
+.react-calendar__tile--active {
+    background-color: #63a3e9!important;
+    color: white!important;
+}
+
+.react-calendar__viewContainer {
+    margin: 10px 0;
+}
+
+.react-calendar__month-view__weekdays {
+    color: lightgray;
+    margin: 20px 0;
+}
+
+abbr {
+    text-decoration: none;
+}
+
+.react-calendar__month-view__days__day {
+    background-color: transparent;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 0;
+    outline: none;
+    color: lightgray;
+    font-size: 15px;
+}
+
+.react-calendar__month-view__days__day:hover {
+    background-color: #7db2ed;
+    color: white;
+}
+
+.calender-weekend {
+    cursor: default;
+    border: none;
+    outline: none;
+    color: rgba(255, 0, 0, 0.671);
+    font-size: 15px;
+}
+
+.calender-weekend:hover {
+    background-color: transparent;
+    color: rgba(255, 0, 0, 0.671);
+}
+
+.booking-btn {
+    height: 50px;
+    width: 300px;
+    margin: 40px 0;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    background-color: #7db2ed;
+    color: white;
+    cursor: pointer;
+}
+
+.booking-btn:hover {
+    background-color: #63a3e9;
+}
+
+.display-msg-main {
+    width: 100%;
+    padding: 15px;
+    box-sizing: border-box;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-align: center;
+}
+
+.display-msg-btn {
+    text-decoration: none;
+    height: 40px;
+    width: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    background-color: #7db2ed;
+    color:white;
+    cursor: pointer;
+}

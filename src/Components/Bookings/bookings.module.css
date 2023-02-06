@@ -299,3 +299,33 @@
     background-color: #65a1e6;
     color: white;
 }
+
+.addBookingMain {
+    position: absolute;
+    top: 2px;
+    right: 1px;
+}
+
+.addBookingContainer {
+    text-decoration: none;
+    width: 150px;
+    height:40px;
+    padding: 15px;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #7db2ed;
+    color: white;
+    cursor: pointer;
+}
+
+.addBookingIcon {
+    margin-right: 5px;
+}
+
+.addBookingContainer:hover {
+    background-color: #65a1e6;
+}

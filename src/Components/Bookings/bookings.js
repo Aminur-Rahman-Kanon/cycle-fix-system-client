@@ -1,6 +1,6 @@
-import React, { useEffect, useState, useRef, useMemo } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMagnifyingGlass, faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
+import { faMagnifyingGlass, faAngleLeft, faAngleRight, faPlus } from '@fortawesome/free-solid-svg-icons';
 import styles from './bookings.module.css';
 import Spinners from "../Others/Spinners/spinners";
 import logo from '../../Assets/logo.png';
@@ -10,9 +10,14 @@ import ReactToPrint from "react-to-print";
 import Modal from "../Others/Modal/modal";
 import Backdrop from "../Others/Backdrop/backdrop";
 import StatusMsg from "../Others/StatusMsg/statusMsg";
+import { Link, useSearchParams } from "react-router-dom";
 
 
 const Bookings = () => {
+
+    const email = useSearchParams();
+
+    console.log();
 
     const [barcode, setBarcode] = useState('');
 
@@ -39,6 +44,8 @@ const Bookings = () => {
     const [modal, setModal] = useState(false);
 
     const [backdrop, setBackdrop] = useState(false);
+
+    const [addBooking, setBooking] = useState(true);
 
     useScanDetection({
         onComplete: setBarcode,
@@ -75,8 +82,6 @@ const Bookings = () => {
         })
     }
 
-    const totalPage = Math.ceil(objKeys.length-3);
-
     let displayService = null;
 
     const statusStyleHandler = (service) => {
@@ -107,8 +112,8 @@ const Bookings = () => {
         }
     }
 
-    if (objKeys.length > 0 && sliceIndex){
-        displayService = objKeys.slice(sliceIndex, sliceIndex + 3).map(day => {
+    if (objKeys.length > 0 && sliceIndex !== null){
+        displayService = objKeys.slice(sliceIndex * 3, (sliceIndex * 3) + 3).map((day, index) => {
             return <div key={day} className={styles.bookingContainerRow} >
                 <div className={styles.bookingContainerHeaderColumn}>
                     <h3 style={{color: 'white'}}>{day}</h3>
@@ -116,7 +121,7 @@ const Bookings = () => {
                 <div className={styles.bookingContainerColumns}>
                     {Object.values(bookings[day]).map(date => {
                         const statusStyle = statusStyleHandler(date.status)
-                        return <div key={date.authCode} className={styles.bookingContainerColumn}
+                        return <div key={date._id} className={styles.bookingContainerColumn}
                                     style={statusStyle}
                                     onClick={() => {
                                         setOrderDetails(date)
@@ -418,6 +423,13 @@ const Bookings = () => {
             <OrderDetails showOrders={showOrders} orderDetails={orderDetails}/>
             <h1 style={{color: '#7db2ed'}}>Bookings</h1>
 
+            <div className={styles.addBookingMain}>
+                <Link to='/add-booking' className={styles.addBookingContainer}>
+                    <FontAwesomeIcon icon={ faPlus } className={styles.addBookingIcon}/>
+                    <p>Add Booking</p>
+                </Link>
+            </div>
+
             <div className={styles.searchBarMain}>
                 <div className={styles.searchInputContainer}>
                     <FontAwesomeIcon icon={ faMagnifyingGlass } className={styles.searchInputIcon} />
@@ -428,19 +440,26 @@ const Bookings = () => {
                            />
                 </div>
             </div>
-            
+
             <div className={styles.bookingContainerMain}>
                 <div className={styles.bookingContainer}>
                     <div className={styles.navigationMain}>
                         <button className={styles.navigationIconContainer}
                                 onClick={() => setSliceIndex(sliceIndex -1)}
-                                disabled={ sliceIndex <= 1 ? true : false }
+                                disabled={ sliceIndex < 1 ? true : false }
                                 >
                             <FontAwesomeIcon icon={ faAngleLeft } className={styles.navigationIcon}/>
                         </button>
                         <button className={styles.navigationIconContainer}
-                                onClick={() => setSliceIndex(sliceIndex +1)}
-                                disabled={sliceIndex === (totalPage -3) ? true : false}
+                                onClick={() => {
+                                    if (sliceIndex === null){
+                                        setSliceIndex(0)
+                                    }
+                                    else {
+                                        setSliceIndex(sliceIndex + 1)
+                                    }
+                                }}
+                                disabled={sliceIndex + 1 === objKeys.length}
                                 >
                             <FontAwesomeIcon icon={ faAngleRight } className={styles.navigationIcon}/>
                         </button>
