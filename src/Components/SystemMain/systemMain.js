@@ -10,11 +10,6 @@ const SystemMain = () => {
 
     return (
         <div className={styles.systemMain}>
-            <div className={styles.systemStatusMain}>
-                <div className={styles.systemStatus}>
-                    <p style={{margin: '10px'}}>System status: Good</p>
-                </div>
-            </div>
             <div className={styles.systemMainContainerMain}>
                 <h1 className={styles.systemMainContainerH1}>System Main</h1>
                 <div className={styles.systemMainWelcomeMsgMain}>
@@ -28,7 +23,7 @@ const SystemMain = () => {
                     <div className={styles.notificationTable}>
                         <div className={styles.noticationTableRow}>
                             <div className={styles.noticationTableColumns}>
-                                <div className={styles.notificationTableColumnHeader}><h3>Service</h3></div>
+                                <div className={styles.notificationTableColumnHeader}><h3 style={{margin: '15.75px 0'}}>Service</h3></div>
                                 <div className={styles.notificationTableColumn}><h3>New</h3></div>
                                 <div className={styles.notificationTableColumn}><h3>Total</h3></div>
                                 <div className={styles.notificationTableColumn}><h3>Action</h3></div>
@@ -39,7 +34,7 @@ const SystemMain = () => {
                                 <div className={styles.notificationTableColumnHeader}><p>Booking</p></div>
                                 <div className={styles.notificationTableColumn}><p>1</p></div>
                                 <div className={styles.notificationTableColumn}><p>5</p></div>
-                                <div className={styles.notificationTableColumn}><Link to="/booking" className={styles.checkLink}>Check</Link></div>
+                                <Link to="/booking" className={styles.notificationTableColumn}>Check</Link>
                             </div>
                         </div>
                         <div className={styles.notificationTableRow}>
@@ -47,7 +42,7 @@ const SystemMain = () => {
                                 <div className={styles.notificationTableColumnHeader}><p>Cams query</p></div>
                                 <div className={styles.notificationTableColumn}><p>0</p></div>
                                 <div className={styles.notificationTableColumn}><p>1</p></div>
-                                <div className={styles.notificationTableColumn}><Link to="/cams-query" className={styles.checkLink}>Check</Link></div>
+                                <Link to="/cams-query" className={styles.notificationTableColumn}>Check</Link>
                             </div>
                         </div>
                         <div className={styles.notificationTableRow}>
@@ -55,7 +50,7 @@ const SystemMain = () => {
                                 <div className={styles.notificationTableColumnHeader}><p>Xiaomi</p></div>
                                 <div className={styles.notificationTableColumn}><p>1</p></div>
                                 <div className={styles.notificationTableColumn}><p>2</p></div>
-                                <div className={styles.notificationTableColumn}><Link to="/xiaomi" className={styles.checkLink}>Check</Link></div>
+                                <Link to="/xiaomi" className={styles.notificationTableColumn}>Check</Link>
                             </div>
                         </div>
                         <div className={styles.notificationTableRow}>
@@ -63,7 +58,7 @@ const SystemMain = () => {
                                 <div className={styles.notificationTableColumnHeader}><p>Contact</p></div>
                                 <div className={styles.notificationTableColumn}><p>2</p></div>
                                 <div className={styles.notificationTableColumn}><p>7</p></div>
-                                <div className={styles.notificationTableColumn}><Link to="/contact-query" className={styles.checkLink}>Check</Link></div>
+                                <Link to="/contact-query" className={styles.notificationTableColumn}>Check</Link>
                             </div>
                         </div>
                         <div className={styles.notificationTableRow}>
@@ -71,7 +66,7 @@ const SystemMain = () => {
                                 <div className={styles.notificationTableColumnHeader}><p>Registred user</p></div>
                                 <div className={styles.notificationTableColumn}><p>4</p></div>
                                 <div className={styles.notificationTableColumn}><p>10</p></div>
-                                <div className={styles.notificationTableColumn}><Link to="/registered-user" className={styles.checkLink}>Check</Link></div>
+                                <Link to="/registered-user" className={styles.notificationTableColumn}>Check</Link>
                             </div>
                         </div>
                         <div className={styles.notificationTableRow}>
@@ -79,7 +74,7 @@ const SystemMain = () => {
                                 <div className={styles.notificationTableColumnHeader}><p>Feedback</p></div>
                                 <div className={styles.notificationTableColumn}><p>2</p></div>
                                 <div className={styles.notificationTableColumn}><p>20</p></div>
-                                <div className={styles.notificationTableColumn}><Link to="/feedback" className={styles.checkLink}>Check</Link></div>
+                                <Link to="/feedback" className={styles.notificationTableColumn}>Check</Link>
                             </div>
                         </div>
                     </div>

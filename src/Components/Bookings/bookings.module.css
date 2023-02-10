@@ -21,64 +21,8 @@
     align-items: center;
 }
 
-
 .bookingDay {
     color: white;
-}
-
-.bookingContainerRow {
-    width: 100%;
-    margin: 10px;
-    padding: 10px;
-    box-sizing: border-box;
-    border-radius: 10px;
-    display: flex;
-    flex-flow: column;
-    justify-content: center;
-    align-items: center;
-    /* background-color: #4d74adf5; */
-    background-color: #474E68;
-}
-
-.bookingContainerColumns {
-    width: 100%;
-    padding: 15px;
-    box-sizing: border-box;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    align-items: center;
-}
-
-.bookingContainerColumn {
-    width: 230px;
-    min-height: 475px;
-    margin: 5px;
-    padding: 10px;
-    box-sizing: border-box;
-    display: flex;
-    flex-flow: column;
-    justify-content: center;
-    align-items: center;
-    border: 1px solid lightgrey;
-    border-radius: 10px;
-    background-color: #7db2ed;
-    color: white;
-    cursor: pointer;
-}
-
-.bookingContainerColumn:hover {
-    background-color: #65a1e6;
-}
-
-.bookingContainerH4 {
-    margin: 10px;
-}
-
-.bookingContainerP {
-    width: 100%;
-    margin: 5px;
-    /* text-align: left; */
 }
 
 .searchBarMain {
@@ -281,23 +225,6 @@
     background-color: rgba(110, 110, 110, 0.116);
     color: #7db2ed;
     opacity: 0.5;
-}
-
-.addBookingBtn {
-    height: 45px;
-    width: 200px;
-    margin: 20px auto;
-    border: 1px solid #7db2ed;
-    border-radius: 5px;
-    background-color: #7db2ed;
-    color: rgb(243, 243, 243);
-    cursor: pointer;
-}
-
-
-.addBookingBtn:hover {
-    background-color: #65a1e6;
-    color: white;
 }
 
 .addBookingMain {

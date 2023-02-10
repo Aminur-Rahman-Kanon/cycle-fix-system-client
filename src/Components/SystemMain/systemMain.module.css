@@ -4,20 +4,6 @@
     box-sizing: border-box;
 }
 
-.systemStatusMain {
-    position: fixed;
-    bottom: 0;
-    right: 0;
-    width: 180px;
-    border: 1px solid green;
-    border-radius: 5px 5px 0 0;
-    background-color: green;
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
 .systemMainContainerMain {
     width: 100%;
     display: flex;
@@ -80,7 +66,9 @@
 }
 
 .notificationTableColumn {
+    text-decoration: none;
     width: 150px;
+    height: 54px;
     margin: 2px;
     border: 1px solid lightgray;
     border-radius: 5px;

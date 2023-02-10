@@ -1,33 +1,30 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useContext } from "react";
+import { DataContainer } from "../../App";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass, faAngleLeft, faAngleRight, faPlus } from '@fortawesome/free-solid-svg-icons';
 import styles from './bookings.module.css';
 import Spinners from "../Others/Spinners/spinners";
-import logo from '../../Assets/logo.png';
 import useScanDetection from 'use-scan-detection';
-import Barcode from "react-barcode";
-import ReactToPrint from "react-to-print";
 import Modal from "../Others/Modal/modal";
 import Backdrop from "../Others/Backdrop/backdrop";
 import StatusMsg from "../Others/StatusMsg/statusMsg";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import DisplayBooking from "./DisplayBooking/displayBooking";
+import DisplayOrderDetails from "./DisplayOrderDetails/displayOrderDetails";
+import SearchCustomer from "./SearchCustomer/searchCustomer";
 
 
 const Bookings = () => {
 
-    const email = useSearchParams();
+    const data = useContext(DataContainer);
 
-    console.log();
+    const emailQuery = useParams();
 
     const [barcode, setBarcode] = useState('');
 
     const timeOutRef = useRef(null);
 
-    const documentToPrint = useRef(null);
-
     const [bookings, setBookings] = useState({});
-
-    const [error, setError] = useState(false);
 
     const [searchCustomer, setSearchCustomer] = useState('');
 
@@ -37,7 +34,7 @@ const Bookings = () => {
 
     const [orderDetails, setOrderDetails] = useState({});
 
-    const [sliceIndex, setSliceIndex] = useState(null);
+    const [sliceIndex, setSliceIndex] = useState(0);
 
     const [actionStatus, setActionStatus] = useState('');
 
@@ -45,7 +42,7 @@ const Bookings = () => {
 
     const [backdrop, setBackdrop] = useState(false);
 
-    const [addBooking, setBooking] = useState(true);
+    const [bookingFound, setBookingFound] = useState(false);
 
     useScanDetection({
         onComplete: setBarcode,
@@ -53,19 +50,8 @@ const Bookings = () => {
     })
 
     useEffect(() => {
-        setSpinner(true)
-        fetch('https://cycle-fix-system-server.onrender.com/bookings', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        }).then(res => res.json()).then(data => {
-            setSpinner(false);
-            setBookings(data.data);
-        }).catch(err => {
-            setSpinner(false);
-            setError(true);
-        });
+        window.scrollTo(0, 0);
+        setBookings(data.bookings);
     }, [])
 
     useEffect(() => {
@@ -74,15 +60,14 @@ const Bookings = () => {
 
     const objKeys = Object.keys(bookings);
 
-    if (!sliceIndex){
+    if (!sliceIndex && !bookingFound){
         objKeys.map((item, index) => {
             if (new Date().toDateString() === item) {
                 setSliceIndex(index);
+                setBookingFound(true);
             }
         })
     }
-
-    let displayService = null;
 
     const statusStyleHandler = (service) => {
         let statusStyle = null;
@@ -108,62 +93,17 @@ const Bookings = () => {
                 color: 'white',
                 border: '1px solid transparent',
                 borderRadius: '5px'
-            }   
+            }
         }
-    }
-
-    if (objKeys.length > 0 && sliceIndex !== null){
-        displayService = objKeys.slice(sliceIndex * 3, (sliceIndex * 3) + 3).map((day, index) => {
-            return <div key={day} className={styles.bookingContainerRow} >
-                <div className={styles.bookingContainerHeaderColumn}>
-                    <h3 style={{color: 'white'}}>{day}</h3>
-                </div>
-                <div className={styles.bookingContainerColumns}>
-                    {Object.values(bookings[day]).map(date => {
-                        const statusStyle = statusStyleHandler(date.status)
-                        return <div key={date._id} className={styles.bookingContainerColumn}
-                                    style={statusStyle}
-                                    onClick={() => {
-                                        setOrderDetails(date)
-                                        setShowOrders(true);
-                                    }}>
-                            <p style={{margin: '5px', fontWeight: '600'}}>{date.service}</p>
-                            <p className={styles.bookingContainerP}>{`Date: ${date.date}`}</p>
-                            <p className={styles.bookingContainerP}>{`Auth code: ${date.authCode}`}</p>
-                            <h4 className={styles.bookingContainerH4}>Bike details</h4>
-                            <p className={styles.bookingContainerP}>{`Make: ${date.bikeDetails.make}`}</p>
-                            <p className={styles.bookingContainerP}>{`Model: ${date.bikeDetails.model}`}</p>
-                            <p className={styles.bookingContainerP}>{`Color: ${date.bikeDetails.color}`}</p>
-                            <p className={styles.bookingContainerP}>{`Additional cost: ${date.bikeDetails.additionalCost}`}</p>
-                            <h4 className={styles.bookingContainerH4}>Customer</h4>
-                            <p className={styles.bookingContainerP}>{`Name: ${date.firstName} ${date.lastName}`}</p>
-                            <p className={styles.bookingContainerP}>{`Email: ${date.email}`}</p>
-                            <p className={styles.bookingContainerP}>{`Phone: ${date.phone}`}</p>
-                            <p className={styles.bookingContainerP} >Status: {date.status ? date.status : 'Pending'}</p>
-                        </div>
-                    })}
-                </div>
-            </div>
-        })
-    }
-    else {
-        displayService = <div className={styles.bookingContainerRow} >
-            <div className={styles.bookingContainerHeaderColumn}>
-                <h3 style={{color: 'white'}}>{new Date().toDateString()}</h3>
-            </div>
-            <div className={styles.bookingContainerColumns} style={{flexFlow: 'column', justifyContent: 'center', color: 'white'}}>
-                <h1>No bookings today</h1>
-                <button className={styles.addBookingBtn}>Add booking</button>
-            </div>
-        </div>
     }
 
     const closeOrderDetails = () => {
         setShowOrders(false);
     }
 
-    const applyJob = (email) => {
-        fetch('https://cycle-fix-system-server.onrender.com/apply-job', {
+    const applyJob = async (email) => {
+        setSpinner(true);
+        await fetch('https://cycle-fix-system-server.onrender.com/apply-job', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -174,24 +114,28 @@ const Bookings = () => {
             })
         }).then(res => res.json()).then(data => {
             if (data.status === 'success'){
+                setSpinner(false);
                 setActionStatus('job applied');
                 setBackdrop(true);
                 setModal(true);
             }
             else if (data.status === 'error'){
+                setSpinner(false);
                 setActionStatus(data.status);
                 setModal(true);
                 setBackdrop(true);
             }
         }).catch(err => {
+            setSpinner(false);
             setActionStatus('network error')
             setModal(true);
             setBackdrop(true);
         })
     }
 
-    const completeJob = (email) => {
-        fetch('https://cycle-fix-system-server.onrender.com/complete-job', {
+    const completeJob = async (email) => {
+        setSpinner(true);
+        await fetch('https://cycle-fix-system-server.onrender.com/complete-job', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -202,25 +146,28 @@ const Bookings = () => {
             })
         }).then(res => res.json()).then(data => {
             if (data.status === 'success'){
-                console.log(data.status);
+                setSpinner(false);
                 setActionStatus('job completed');
                 setBackdrop(true);
                 setModal(true);
             }
             else if (data.status === 'error'){
+                setSpinner(false);
                 setActionStatus(data.status);
                 setModal(true);
                 setBackdrop(true);
             }
         }).catch(err => {
+            setSpinner(false);
             setActionStatus('network error')
             setModal(true);
             setBackdrop(true);
         })
     }
 
-    const deleteJob = (email) => {
-        fetch('https://cycle-fix-system-server.onrender.com/delete-job', {
+    const deleteJob = async (email) => {
+        setSpinner(true);
+        await fetch('https://cycle-fix-system-server.onrender.com/delete-job', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -230,16 +177,19 @@ const Bookings = () => {
             })
         }).then(res => res.json()).then(data => {
             if (data.status === 'success'){
+                setSpinner(false);
                 setActionStatus('job deleted');
                 setBackdrop(true);
                 setModal(true);
             }
             else if (data.status === 'error'){
+                setSpinner(false);
                 setActionStatus(data.status);
                 setModal(true);
                 setBackdrop(true);
             }
         }).catch(err => {
+            setSpinner(false);
             setActionStatus('network error')
             setModal(true);
             setBackdrop(true);
@@ -251,164 +201,14 @@ const Bookings = () => {
         setModal(false);
         setBackdrop(false);
     }
-
-    const OrderDetails = ({showOrders, orderDetails}) => {
-        if (!showOrders) return;
-        const statusStyle = statusStyleHandler(orderDetails.status)
-
-        return <div className={styles.orderDetailsMain}>
-            <div className={styles.orderDetailsContainer} ref={documentToPrint}>
-                <img src={logo} alt="cycle fix" style={{width: '100px'}}/>
-                <div className={styles.orderDetailsRows}>
-                    <div className={styles.orderDetailsRow}>
-                        <h4 className={styles.orderDetailsHeaderH4}>Service</h4>
-                        <div className={styles.orderDetailsColumns}>
-                            <div className={styles.orderDetailsColumn}>
-                                <p className={styles.orderDetailsP}>{orderDetails.service}</p>
-                            </div>
-                            <div className={styles.orderDetailsColumn}>
-                                <h4 className={styles.orderDetailsH4}>Date:</h4>
-                                <p className={styles.orderDetailsP}>{orderDetails.date}</p>
-                            </div>
-                            <div className={styles.orderDetailsColumn} style={statusStyle}>
-                                <h4 className={styles.orderDetailsH4}>Status:</h4>
-                                <p className={styles.orderDetailsP}>{orderDetails.status ? orderDetails.status : 'Pending'}</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div className={styles.orderDetailsRow}>
-                        <h4 className={styles.orderDetailsHeaderH4}>Payment Details</h4>
-                        <div className={styles.orderDetailsColumns}>
-                            <div className={styles.orderDetailsColumn}>
-                                <h4 className={styles.orderDetailsH4}>Total Price:</h4>
-                                <p className={styles.orderDetailsP}>{`£${orderDetails.totalPrice}`}</p>
-                            </div>
-                            <div className={styles.orderDetailsColumn}>
-                                <h4 className={styles.orderDetailsH4}>Package price:</h4>
-                                <p className={styles.orderDetailsP}>£{orderDetails.packagePrice}</p>
-                            </div>
-                            <div className={styles.orderDetailsColumn}>
-                                <h4 className={styles.orderDetailsH4}>Additional cost:</h4>
-                                <p className={styles.orderDetailsP}>£{orderDetails.bikeDetails.additionalCost}</p>
-                            </div>
-                            <div className={styles.orderDetailsColumn}>
-                                <h4 className={styles.orderDetailsH4}>Paid:</h4>
-                                <p className={styles.orderDetailsP}>£{orderDetails.deposit || '25'}</p>
-                            </div>
-                            <div className={styles.orderDetailsColumn}>
-                                <h4 className={styles.orderDetailsH4}>Due:</h4>
-                                <p className={styles.orderDetailsP}>£{orderDetails.due || '25'}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className={styles.orderDetailsRows}>
-                    <div className={styles.orderDetailsRow}>
-                        <h4 className={styles.orderDetailsHeaderH4}>Bike details</h4>
-                        <div className={styles.orderDetailsColumns}>
-                            <div className={styles.orderDetailsColumn}>
-                                <h4 className={styles.orderDetailsH4}>Make:</h4>
-                                <p className={styles.orderDetailsP}>{orderDetails.bikeDetails['make']}</p>
-                            </div>
-                            <div className={styles.orderDetailsColumn}>
-                                <h4 className={styles.orderDetailsH4}>Model:</h4>
-                                <p className={styles.orderDetailsP}>{orderDetails.bikeDetails.model}</p>
-                            </div><div className={styles.orderDetailsColumn}>
-                                <h4 className={styles.orderDetailsH4}>Color:</h4>
-                                <p className={styles.orderDetailsP}>{orderDetails.bikeDetails.color}</p>
-                            </div><div className={styles.orderDetailsColumn}>
-                                <h4 className={styles.orderDetailsH4}>Additional info:</h4>
-                                <p className={styles.orderDetailsP}>N/A</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div className={styles.orderDetailsRow}>
-                        <h4 className={styles.orderDetailsHeaderH4}>Customer Details</h4>
-                        <div className={styles.orderDetailsColumns}>
-                            <div className={styles.orderDetailsColumn}>
-                                <h4 className={styles.orderDetailsH4}>Name</h4>
-                                <p className={styles.orderDetailsP}>{`${orderDetails.firstName} ${orderDetails.lastName}`}</p>
-                            </div>
-                            <div className={styles.orderDetailsColumn}>
-                                <h4 className={styles.orderDetailsH4}>Email</h4>
-                                <p className={styles.orderDetailsP}>{orderDetails.email}</p>
-                            </div>
-                            <div className={styles.orderDetailsColumn}>
-                                <h4 className={styles.orderDetailsH4}>Phone</h4>
-                                <p className={styles.orderDetailsP}>{orderDetails.phone}</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className={styles.orderDetailsRows} style={{marginTop: '50px'}}>
-                        <div>
-                            <Barcode value={orderDetails.email} width={1}/>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-            <div className={styles.btnContainer}>
-                <ReactToPrint trigger={() => <button className={styles.printBtn}>Apply job and print</button>}
-                              content={() => documentToPrint.current}
-                              onAfterPrint={() => applyJob(orderDetails.email) }/>
-                <button className={styles.printBtn}
-                        onClick={() => completeJob(orderDetails.email) }
-                        disabled={orderDetails.status === 'Completed'}
-                        >Mark as complete</button>
-                <button className={styles.printBtn} onClick={() => deleteJob(orderDetails.email)}>Delete booking</button>
-                <button className={styles.printBtn} onClick={() => closeOrderDetails(orderDetails.email) }>Close</button>
-            </div>
-        </div>
-    }
     
     const searchCustomerHandler = (e) => {
         timeOutRef.current = setTimeout(() => {
             setSearchCustomer(e.target.value);
         }, 1500)
     }
-    let noUserFound = null;
 
-    let searchCustomerDisplay = null;
-    
-    if (searchCustomer && !noUserFound || barcode){
-        searchCustomerDisplay = Object.values(bookings).map(item => Object.values(item).filter(nesItem => nesItem.email === searchCustomer || barcode)).map(result => result.map(el => {
-            return <div key={el.authCode} className={styles.bookingContainerRow}>
-                <div className={styles.bookingContainerHeaderColumn}>
-                    <h3 style={{color: 'white'}}>{el.date}</h3>
-                </div>
-                <div className={styles.bookingContainerColumns}>
-                    <div className={styles.bookingContainerColumn} onClick={() => {
-                        setOrderDetails(el);
-                        setShowOrders(true);
-                    }}>
-                        <h4 className={styles.bookingContainerH4}>Service</h4> 
-                        <p style={{margin: '5px', fontWeight: '600'}}>{el.service}</p>
-                        <p className={styles.bookingContainerP}>{`Date: ${el.date}`}</p>
-                        <p className={styles.bookingContainerP}>{`Auth code: ${el.authCode}`}</p>
-                        <h4 className={styles.bookingContainerH4}>Bike details</h4>
-                        <p className={styles.bookingContainerP}>{`Make: ${el.bikeDetails.make}`}</p>
-                        <p className={styles.bookingContainerP}>{`Model: ${el.bikeDetails.model}`}</p>
-                        <p className={styles.bookingContainerP}>{`Color: ${el.bikeDetails.color}`}</p>
-                        <p className={styles.bookingContainerP}>{`Additional cost: ${el.bikeDetails.additionalCost}`}</p>
-                        <h4 className={styles.bookingContainerH4}>Customer</h4>
-                        <p className={styles.bookingContainerP}>{`Name: ${el.firstName} ${el.lastName}`}</p>
-                        <p className={styles.bookingContainerP}>{`Email: ${el.email}`}</p>
-                        <p className={styles.bookingContainerP}>{`Phone: ${el.phone}`}</p>
-                    </div>
-                </div>
-            </div>
-        }))
-    }
-
-    if (searchCustomerDisplay){
-        const found = searchCustomerDisplay.filter(item => item.length > 0)
-        if (found.length <= 0){
-            noUserFound = <div className={styles.bookingContainerRow}>
-                <h1 style={{color: 'white'}}>Nothing found</h1>
-            </div>
-        }
-    }
+    console.log(barcode);
     
     return (
         <>
@@ -420,7 +220,13 @@ const Bookings = () => {
                        errorHandler={ errorHandler } />
         </Modal>
         <div className={styles.bookingMain}>
-            <OrderDetails showOrders={showOrders} orderDetails={orderDetails}/>
+            <DisplayOrderDetails showOrders={showOrders}
+                                 orderDetails={orderDetails}
+                                 closeOrderDetails={closeOrderDetails}
+                                 applyJob={applyJob}
+                                 completeJob={completeJob}
+                                 deleteJob={deleteJob}
+                                 statusStyleHandle={statusStyleHandler}/>
             <h1 style={{color: '#7db2ed'}}>Bookings</h1>
 
             <div className={styles.addBookingMain}>
@@ -446,26 +252,30 @@ const Bookings = () => {
                     <div className={styles.navigationMain}>
                         <button className={styles.navigationIconContainer}
                                 onClick={() => setSliceIndex(sliceIndex -1)}
-                                disabled={ sliceIndex < 1 ? true : false }
-                                >
+                                disabled={ sliceIndex <= 0 ? true : false }>
                             <FontAwesomeIcon icon={ faAngleLeft } className={styles.navigationIcon}/>
                         </button>
                         <button className={styles.navigationIconContainer}
-                                onClick={() => {
-                                    if (sliceIndex === null){
-                                        setSliceIndex(0)
-                                    }
-                                    else {
-                                        setSliceIndex(sliceIndex + 1)
-                                    }
-                                }}
+                                onClick={() => setSliceIndex( sliceIndex + 1 )}
                                 disabled={sliceIndex + 1 === objKeys.length}
                                 >
                             <FontAwesomeIcon icon={ faAngleRight } className={styles.navigationIcon}/>
                         </button>
                     </div>
-                    { noUserFound }
-                    { searchCustomer ? searchCustomerDisplay : displayService}
+                    {searchCustomer ? <SearchCustomer bookings={bookings}
+                                                       searchCustomer={searchCustomer}
+                                                       barcode={barcode}
+                                                       orderDetails={setOrderDetails}
+                                                       showOrders={setShowOrders}/>
+                    : 
+                    <DisplayBooking bookingObj={bookings}
+                                    sliceIndex={ sliceIndex }
+                                    bookingFound={ bookingFound }
+                                    showOrders={setShowOrders}
+                                    orderDetails={setOrderDetails}
+                                    statusStyleHandle={statusStyleHandler}
+                                    emailQuery={emailQuery}/>
+                    }
                 </div>
             </div>
         </div>

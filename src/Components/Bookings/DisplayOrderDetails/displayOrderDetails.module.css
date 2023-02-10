@@ -1,0 +1,122 @@
+.orderDetailsMain {
+    width: 90%;
+    height: 90vh;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -45%);
+    overflow: auto;
+    background-color: white;
+    border: 1px solid rgb(202, 202, 202);
+    border-radius: 5px;
+}
+
+.orderDetailsContainer {
+    width: 100%;
+    margin: 10px auto;
+    padding: 10px;
+    box-sizing: border-box;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.orderDetailsRows {
+    width: 100%;
+    margin: 10px auto;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+.orderDetailsRow {
+    width: 350px;
+    margin: 5px;
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    align-items: center;
+
+}
+
+.orderDetailsColumns {
+    width: 300px;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.orderDetailsColumn {
+    width: 98%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.orderDetailsHeaderH4 {
+    text-align: left;
+    width: 275px;
+    padding: 10px;
+    margin: 8px;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    background-color: #7db2ed;
+    color: white;
+}
+
+.orderDetailsH4, .orderDetailsP {
+    margin: 10px;
+}
+
+.orderDetailsService {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.orderDetailsServiceHeader {
+    width: 300px;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    background-color: #7db2ed;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btnContainer {
+    width: 100%;
+    margin: 20px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.printBtn {
+    height: 50px;
+    width: 200px;
+    margin: 20px;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    background-color: #7db2ed;
+    color: white;
+    cursor: pointer;
+}
+
+.printBtn:hover {
+    background-color: #65a1e6;
+}
+
+.printBtn:disabled {
+    opacity: 0.5;
+    cursor: default;
+}
+
+.printBtn:disabled:hover {
+    background-color: #7db2ed;
+}
