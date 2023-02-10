@@ -24,10 +24,7 @@ function App() {
   useEffect(() => {
     setSpinner(true);
     fetch('https://cycle-fix-system-server.onrender.com/bookings', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      }
+      method: 'POST'
     }).then(res => res.json()).then(data => {
       setSpinner(false);
       setBookings(data.data)
