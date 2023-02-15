@@ -1,0 +1,37 @@
+.navigationMain {
+    width: 100%;
+    padding: 15px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navigationIconContainer {
+    width: 40px;
+    height: 40px;
+    border: 1px solid lightgray;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(110, 110, 110, 0.116);
+    color: #7db2ed;
+    cursor: pointer;
+}
+
+.navigationIconContainer:hover {
+    background-color: rgba(110, 110, 110, 0.171);
+    color: #65a1e6;
+}
+
+.navigationIconContainer:disabled {
+    opacity: 0.5;
+    cursor: default;
+}
+
+.navigationIconContainer:disabled:hover {
+    background-color: rgba(110, 110, 110, 0.116);
+    color: #7db2ed;
+    opacity: 0.5;
+}

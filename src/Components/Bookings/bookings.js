@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef, useContext } from "react";
 import { DataContainer } from "../../App";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMagnifyingGlass, faAngleLeft, faAngleRight, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import styles from './bookings.module.css';
 import Spinners from "../Others/Spinners/spinners";
 import useScanDetection from 'use-scan-detection';
@@ -12,6 +12,8 @@ import { Link, useParams } from "react-router-dom";
 import DisplayBooking from "./DisplayBooking/displayBooking";
 import DisplayOrderDetails from "./DisplayOrderDetails/displayOrderDetails";
 import SearchCustomer from "./SearchCustomer/searchCustomer";
+import PaginationSystem from "../Others/PaginationSystem/paginationSystem";
+import SearchBar from "../Others/SearchBar/searchBar";
 
 
 const Bookings = () => {
@@ -34,7 +36,7 @@ const Bookings = () => {
 
     const [orderDetails, setOrderDetails] = useState({});
 
-    const [sliceIndex, setSliceIndex] = useState(0);
+    const [sliceIndex, setSliceIndex] = useState(null);
 
     const [actionStatus, setActionStatus] = useState('');
 
@@ -48,12 +50,12 @@ const Bookings = () => {
         onComplete: setBarcode,
         minLength: 5
     })
-
+    
     useEffect(() => {
         window.scrollTo(0, 0);
         setBookings(data.bookings);
     }, [])
-
+    
     useEffect(() => {
         return () => clearTimeout(timeOutRef.current)
     }, [ searchCustomer ])
@@ -216,7 +218,7 @@ const Bookings = () => {
         <Spinners spinner={ spinner } />
         <Modal modal={modal}>
             <StatusMsg status={actionStatus}
-                       jobStatusHandler={ () => window.location.reload() }
+                       jobStatusHandler={ () => window.location.href = '/booking' }
                        errorHandler={ errorHandler } />
         </Modal>
         <div className={styles.bookingMain}>
@@ -236,32 +238,14 @@ const Bookings = () => {
                 </Link>
             </div>
 
-            <div className={styles.searchBarMain}>
-                <div className={styles.searchInputContainer}>
-                    <FontAwesomeIcon icon={ faMagnifyingGlass } className={styles.searchInputIcon} />
-                    <input type="text"
-                           className={styles.searchInput}
-                           placeholder="Search Customer"
-                           onChange={ searchCustomerHandler }
-                           />
-                </div>
-            </div>
+            <SearchBar placeholder="Search Customer" searchBarHandler={ searchCustomerHandler }/>
 
             <div className={styles.bookingContainerMain}>
                 <div className={styles.bookingContainer}>
-                    <div className={styles.navigationMain}>
-                        <button className={styles.navigationIconContainer}
-                                onClick={() => setSliceIndex(sliceIndex -1)}
-                                disabled={ sliceIndex <= 0 ? true : false }>
-                            <FontAwesomeIcon icon={ faAngleLeft } className={styles.navigationIcon}/>
-                        </button>
-                        <button className={styles.navigationIconContainer}
-                                onClick={() => setSliceIndex( sliceIndex + 1 )}
-                                disabled={sliceIndex + 1 === objKeys.length}
-                                >
-                            <FontAwesomeIcon icon={ faAngleRight } className={styles.navigationIcon}/>
-                        </button>
-                    </div>
+                    <PaginationSystem increment={() => setSliceIndex(sliceIndex +1)}
+                                      decrement={() => setSliceIndex(sliceIndex -1)}
+                                      decrementDisable={sliceIndex <= 0}
+                                      incrementDisable={sliceIndex + 1 === objKeys.length}/>
                     {searchCustomer ? <SearchCustomer bookings={bookings}
                                                        searchCustomer={searchCustomer}
                                                        barcode={barcode}

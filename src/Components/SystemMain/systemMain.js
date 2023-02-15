@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { DataContainer } from '../../App';
 import { Link } from 'react-router-dom';
 import styles from './systemMain.module.css';
 
 const SystemMain = () => {
+
+    const data = useContext(DataContainer);
 
     const initDate = new Date();
 
@@ -24,7 +27,7 @@ const SystemMain = () => {
                         <div className={styles.noticationTableRow}>
                             <div className={styles.noticationTableColumns}>
                                 <div className={styles.notificationTableColumnHeader}><h3 style={{margin: '15.75px 0'}}>Service</h3></div>
-                                <div className={styles.notificationTableColumn}><h3>New</h3></div>
+                                <div className={styles.notificationTableColumn}><h3>Today</h3></div>
                                 <div className={styles.notificationTableColumn}><h3>Total</h3></div>
                                 <div className={styles.notificationTableColumn}><h3>Action</h3></div>
                             </div>
@@ -32,16 +35,16 @@ const SystemMain = () => {
                         <div className={styles.notificationTableRow}>
                             <div className={styles.noticationTableColumns}>
                                 <div className={styles.notificationTableColumnHeader}><p>Booking</p></div>
-                                <div className={styles.notificationTableColumn}><p>1</p></div>
-                                <div className={styles.notificationTableColumn}><p>5</p></div>
+                                <div className={styles.notificationTableColumn}><p>{data.todayCount}</p></div>
+                                <div className={styles.notificationTableColumn}><p>{data.bookingCount}</p></div>
                                 <Link to="/booking" className={styles.notificationTableColumn}>Check</Link>
                             </div>
                         </div>
                         <div className={styles.notificationTableRow}>
                             <div className={styles.noticationTableColumns}>
                                 <div className={styles.notificationTableColumnHeader}><p>Cams query</p></div>
-                                <div className={styles.notificationTableColumn}><p>0</p></div>
-                                <div className={styles.notificationTableColumn}><p>1</p></div>
+                                <div className={styles.notificationTableColumn}><p>N/A</p></div>
+                                <div className={styles.notificationTableColumn}><p>{data.camsCount}</p></div>
                                 <Link to="/cams-query" className={styles.notificationTableColumn}>Check</Link>
                             </div>
                         </div>

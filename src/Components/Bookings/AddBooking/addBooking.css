@@ -137,7 +137,7 @@ label {
 }
 
 .react-calendar__tile--active {
-    background-color: #63a3e9!important;
+    background-color: #e07618b8!important;
     color: white!important;
 }
 
@@ -198,6 +198,15 @@ abbr {
     background-color: #63a3e9;
 }
 
+.booking-btn:disabled {
+    opacity: 0.5;
+    cursor: default;
+}
+
+.booking-btn:disabled:hover {
+    background-color: #7db2ed;
+}
+
 .display-msg-main {
     width: 100%;
     padding: 15px;
@@ -222,5 +231,6 @@ abbr {
     border-radius: 5px;
     background-color: #7db2ed;
     color:white;
+    font-size: 15px;
     cursor: pointer;
 }

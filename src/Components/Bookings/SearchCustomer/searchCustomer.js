@@ -9,7 +9,7 @@ const SearchCustomer = ({bookings, searchCustomer, barcode, orderDetails, showOr
         if (searchCustomer || barcode){
             Object.values(bookings).map(item => Object.values(item).map(nesItem => {
                 if (nesItem.email === searchCustomer || barcode) {
-                    setBookingFound([...bookingFound, nesItem])
+                    setBookingFound(oldItem => [...oldItem, nesItem])
                 }
             }));
         }
@@ -18,12 +18,10 @@ const SearchCustomer = ({bookings, searchCustomer, barcode, orderDetails, showOr
     }, [searchCustomer, barcode])
 
     let result = null;
-
-    console.log(bookingFound);
     
     if (bookingFound.length > 0){
         result = bookingFound.map(result => {
-            return <div key={result.authCode} className={styles.bookingContainerRow}>
+            return <div key={result._id} className={styles.bookingContainerRow}>
                 <div className={styles.bookingContainerHeaderColumn}>
                     <h3 style={{color: 'white'}}>{result.date}</h3>
                 </div>

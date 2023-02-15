@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from 'react-router-dom';
 import './addBooking.css';
 import Calendar from "react-calendar";
@@ -25,13 +25,83 @@ const AddBooking = () => {
     const [backdrop, setBackdrop] = useState(false);
     const [spinner, setSpinner] = useState(false);
     const [status, setStatus] = useState('');
+    const [btnDisable, setBtnDisable] = useState(true);
+
+    useEffect(() => {
+        if (service && make && model && name && email && phone && date && deposit){
+            setBtnDisable(false);
+        }
+        else {
+            setBtnDisable(true);
+        }
+    }, [service, make, model, name, email, phone, date, deposit]);
+
+    const addAnyway = (e) => {
+        e.preventDefault();
+        setStatus('');
+        setSpinner(true);
+        const firstName = name.split(' ')[0] || "Unspecified";
+        const lastName = name.split(' ')[1] || "Unspecified";
+
+        let due = null;
+        if (totalPrice && deposit){
+            due = parseInt(totalPrice) - parseInt(deposit)
+        }
+
+        const bikeDetails = {
+            make, model, color, issue, additionalCost: 0
+        }
+
+        let packagePrice = 0;
+
+        if (service === 'safety check'){
+            packagePrice = 50;
+        }
+        else if(service === 'single speed full service'){
+            packagePrice = 80;
+        }
+        else if(service === 'full service'){
+            packagePrice = 80;
+        }
+        else if(service === 'brompton full service'){
+            packagePrice = 80;
+        }
+
+        fetch('http://localhost:8000/add-anyway', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                service, authCode: 'N/A', packagePrice, totalPrice, deposit, bikeDetails, firstName, lastName, email, phone, date, due
+            })
+        }).then(res => res.json()).then(data => {
+            setSpinner(false);
+            if (data.status === 'success'){
+                setSpinner(false);
+                setStatus('success');
+                setModal(true);
+                setBackdrop(true);
+            }
+            else if (data.status === 'error'){
+                setSpinner(false);
+                setStatus(data.status)
+                setModal(true);
+                setBackdrop(true);
+            }
+        }).catch(err => {
+            setSpinner(false);
+            setStatus('network error');
+            setModal(true);
+            setBackdrop(true);
+        })
+    }
 
     const submitFormHandler = (e) => {
         e.preventDefault();
         const firstName = name.split(' ')[0] || "Unspecified";
         const lastName = name.split(' ')[1] || "Unspecified";
 
-        console.log(firstName, lastName);
         let due = null;
         if (totalPrice && deposit){
             due = parseInt(totalPrice) - parseInt(deposit)
@@ -103,13 +173,14 @@ const AddBooking = () => {
     if (status === 'success'){
         displayMsg = <div className="display-msg-main">
             <h2>Booking added in the system</h2>
-            <button className="display-msg-btn" onClick={() => window.location.href = '/booking'}>Ok</button>
+            <button className="display-msg-btn" onClick={() => window.location.assign('/')}>Ok</button>
         </div>
     }
     else if (status === 'booking exist'){
         displayMsg = <div className="display-msg-main">
             <h2>Booking exist with this email address</h2>
             <Link to={`/booking/${email}`} className="display-msg-btn">Check</Link>
+            <button className="display-msg-btn" onClick={ addAnyway }>Book anyway</button>
         </div>
     }
     else if (status === 'error'){
@@ -126,6 +197,8 @@ const AddBooking = () => {
             <button className="display-msg-btn" onClick={ errorHandler }>Ok</button>
         </div>
     }
+
+    console.log(date);
 
     return (
         <>
@@ -224,8 +297,7 @@ const AddBooking = () => {
                         <h3 style={{color: 'lightgray', margin: '10px'}}>Select a date</h3>
                         <div className="form-input-group">
                             <Calendar minDate={new Date()}
-                                      value={new Date(date ||null)}
-                                      onClickDay={(value) => console.log(value)}
+                                      value={new Date(date || null)}
                                       showNeighboringMonth={false}
                                       tileDisabled={({date}) => date.getDay() === 0}
                                       tileClassName={({ date }) => date.getDay() === 0 && date.getDate().toString() !== new Date().getDate().toString() ? "calender-weekend" : null}
@@ -250,7 +322,7 @@ const AddBooking = () => {
                         </div>
                     </div>
                 </div>
-                <button className="booking-btn" onClick={ submitFormHandler }>Add booking</button>
+                <button disabled={btnDisable} className="booking-btn" onClick={ submitFormHandler }>Add booking</button>
             </form>
         </div>
         </>

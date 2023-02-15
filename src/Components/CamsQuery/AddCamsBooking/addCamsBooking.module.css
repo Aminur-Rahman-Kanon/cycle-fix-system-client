@@ -1,0 +1,128 @@
+.camsBookingMain {
+    width: 100%;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.camsBookingFormContainer {
+    height: 100vh;
+    width: 100%;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #474e68;
+}
+
+.camsBookingFormMain {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.camsBookingBg, .camsBookingForm {
+    width: 45%;
+    padding: 10px;
+    box-sizing: border-box;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.camsImg {
+    width: 100%;
+    margin-top: 10px;
+    border-radius: 5px;
+}
+
+.bookingFormInputContainer {
+    width: 350px;
+    height: 45px;
+    margin: 10px;
+    border: 1px solid grey;
+    border-radius: 5px;
+    background-color: rgba(0, 0, 0, 0.322);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.bookingFormTextContainer {
+    width: 350px;
+    margin: 10px;
+    border: 1px solid grey;
+    border-radius: 5px;
+    background-color: rgba(0, 0, 0, 0.322);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.bookingFormInput {
+    width: 80%;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    color: white;
+}
+
+.bookingFormTextarea {
+    width: 80%;
+    padding-top: 10px;
+    resize: none;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    color: white;
+}
+
+.bookingFormIcon {
+    font-size: 16px;
+    color: grey;
+    margin-left: 5px;
+}
+
+.addBookingBtn {
+    height: 40px;
+    width: 350px;
+    margin: 20px;
+    border: 1px solid #7db2ed;
+    border-radius: 5px;
+    background-color: #7db2ed;
+    color: white;
+    cursor: pointer;
+}
+
+.addBookingBtn:hover {
+    background-color: #6ba7ec;
+}
+
+.statusMsgMain {
+    width: 100%;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    box-sizing: border-box;
+    color: white;
+}
+
+.statusMsgBtn {
+    height: 40px;
+    width: 300px;
+    border: 1px solid #7db2ed;
+    background-color: #7db2ed;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 20px;
+}
+
+.statusMsgBtn:hover {
+    background-color: #6ba7ec;
+}

@@ -25,48 +25,6 @@
     color: white;
 }
 
-.searchBarMain {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.searchInputContainer {
-    width: 450px;
-    height: 50px;
-    border: 1px solid grey;
-    border-radius: 10px;
-    background-color: rgba(255, 255, 255, 0.582);
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-}
-
-.searchInputIcon {
-    width: 30px;
-    padding: 10px;
-    margin: 10px;
-    border-radius: 10px;
-    background-color: #7db2ed;
-    color: white;
-}
-
-.searchInput {
-    width: 85%;
-    height: 40px;
-    border: none;
-    outline: none;
-    background-color: transparent;
-    color: #7db2ed;
-    font-size: 20px;
-    font-weight: bold;
-}
-
-.searchInput::placeholder {
-    color: #7db2ed;
-}
-
 .orderDetailsMain {
     width: 90%;
     height: 750px;
@@ -187,44 +145,6 @@
 
 .printBtn:disabled:hover {
     background-color: #7db2ed;
-}
-
-.navigationMain {
-    width: 100%;
-    padding: 15px;
-    box-sizing: border-box;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.navigationIconContainer {
-    width: 40px;
-    height: 40px;
-    border: 1px solid lightgray;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: rgba(110, 110, 110, 0.116);
-    color: #7db2ed;
-    cursor: pointer;
-}
-
-.navigationIconContainer:hover {
-    background-color: rgba(110, 110, 110, 0.171);
-    color: #65a1e6;
-}
-
-.navigationIconContainer:disabled {
-    opacity: 0.5;
-    cursor: default;
-}
-
-.navigationIconContainer:disabled:hover {
-    background-color: rgba(110, 110, 110, 0.116);
-    color: #7db2ed;
-    opacity: 0.5;
 }
 
 .addBookingMain {
