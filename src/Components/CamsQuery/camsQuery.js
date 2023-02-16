@@ -31,7 +31,6 @@ const CamsQuery = () => {
         if (data){
             const searchCustomerfliter = data.filter(item => item.email === searchCustomer);
             if (searchCustomerfliter.length > 0){
-                console.log(searchCustomerfliter);
                 searchCustomerDisplay = searchCustomerfliter.map(item => <div key={item._id} className={styles.camsQueryItems}>
                     <div className={styles.CamsQueryItem}>
                         <h4 className={styles.CamsQueryH4}>Name:</h4>
@@ -54,9 +53,9 @@ const CamsQuery = () => {
         }
     }
 
-    let display = <div>
-        <h1>No booking today</h1>
-        <button>Add Booking</button>
+    let display = <div className={styles.noBookingFound}>
+        <h1>No booking found</h1>
+        <Link to="/add-cams-booking" className={styles.addBookingLink}>Add booking</Link>
     </div>
 
     if (data){

@@ -20,7 +20,7 @@
 
 .camsQueryItems {
     width: 300px;
-    min-height: 320px;
+    min-height: 335px;
     margin: 30px 10px 10px 10px;
     padding: 10px;
     border-radius: 10px;
@@ -61,6 +61,7 @@
 }
 
 .CamsQueryP {
+    width: 150px;
     margin: 10px;
     text-align: left;
 }
@@ -105,4 +106,31 @@
     color: inherit;
     font-size: 14px;
     cursor: pointer;
+}
+
+.noBookingFound {
+    width: 300px;
+    margin: 25px auto;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+.addBookingLink {
+    height: 40px;
+    width: 300px;
+    text-decoration: none;
+    border: 1px solid #7db2ed;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #7db2ed;
+    color: white;
+}
+
+.addBookingLink:hover {
+    background-color: #6da9ee;
 }

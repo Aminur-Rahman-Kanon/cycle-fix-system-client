@@ -9,6 +9,8 @@ import Spinners from './Components/Others/Spinners/spinners';
 import SystemStatus from './Components/Others/SystemStatus/systemStatus';
 import CamsQuery from './Components/CamsQuery/camsQuery';
 import AddCamsBooking from './Components/CamsQuery/AddCamsBooking/addCamsBooking';
+import Xiaomi from './Components/Xiaomi/xiaomi';
+import AddXiaomiBooking from './Components/Xiaomi/addXiaomiBooking/addXiaomiBooking';
 import './App.css';
 
 export const DataContainer = createContext(null);
@@ -19,11 +21,15 @@ function App() {
 
   const [cams, setCams] = useState(null);
 
+  const [xiaomi, setXiaomi] = useState(null);
+
   const [camsCount, setCamsCount] = useState(0);
 
   const [bookingCount, setBookingCount] = useState(0);
 
   const [todayCount, setTodayCount] = useState(0);
+
+  const [xiaomiCount, setXiaomiCount] = useState(0);
   
   const [contactQuery, setContactQuery] = useState([]);
 
@@ -36,12 +42,14 @@ function App() {
     
     Promise.all([
       fetch('https://cycle-fix-system-server.onrender.com/bookings'),
-      fetch('https://cycle-fix-system-server.onrender.com/cams-query')
-    ]).then(([bookingsRes, camRes]) => Promise.all([bookingsRes.json(), camRes.json()])).
-    then(([bookingData, camsData]) => {
+      fetch('https://cycle-fix-system-server.onrender.com/cams-query'),
+      fetch('https://cycle-fix-system-server.onrender.com/xiaomi-query')
+    ]).then(([bookingsRes, camRes, xiaomiRes]) => Promise.all([bookingsRes.json(), camRes.json(), xiaomiRes.json()])).
+    then(([bookingData, camsData, xiaomiData]) => {
       setSpinner(false);
       setBookings(bookingData.data);
       setCams(camsData.data);
+      setXiaomi(xiaomiData.data);
     })
   }, [])
 
@@ -54,7 +62,7 @@ function App() {
         count ++;
         if (today === nesItem.date){
           todayCount ++;
-        }
+        };
       }));
       setBookingCount(count);
       setTodayCount(todayCount);
@@ -62,6 +70,10 @@ function App() {
 
     if (cams){
       setCamsCount(cams.length);
+    }
+
+    if (xiaomi){
+      setXiaomiCount(xiaomi.length);
     }
   }, [bookings])
 
@@ -71,7 +83,7 @@ function App() {
       <Spinners spinner={spinner} />
       <SystemStatus error={error} />
       <Topbar />
-      <DataContainer.Provider value={{bookings, contactQuery, bookingCount, todayCount, cams, camsCount}}>
+      <DataContainer.Provider value={{bookings, contactQuery, bookingCount, todayCount, cams, camsCount, xiaomi, xiaomiCount}}>
         <Routes>
           <Route path='/' element={<SystemMain />}/>
           <Route path='/booking' element={<Bookings />}/>
@@ -79,6 +91,8 @@ function App() {
           <Route path='/add-booking' element={<AddBooking />}/>
           <Route path='/cams-query' element={<CamsQuery />}/>
           <Route path='/add-cams-booking' element={<AddCamsBooking />}/>
+          <Route path='/xiaomi' element={<Xiaomi />}/>
+          <Route path='/add-xiaomi-booking' element={<AddXiaomiBooking />}/>
           <Route path='*' element={<NoMatchRoute />}/>
         </Routes>
       </DataContainer.Provider>

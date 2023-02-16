@@ -107,7 +107,7 @@ const AddCamsBooking = () => {
             {statusMsgDisplay}
         </Modal>
         <div className={styles.camsBookingMain}>
-            <h1>Add new Cams booking</h1>
+            <h1 style={{color: '#7db2ed', letterSpacing: '1px'}}>Add new Cams booking</h1>
             <div className={styles.camsBookingFormContainer}>
                 <div className={styles.camsBookingFormMain}>
                     <div className={styles.camsBookingBg}>

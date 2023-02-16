@@ -11,6 +11,8 @@ const SystemMain = () => {
 
     const date = `${initDate.getDate()}/${initDate.getMonth() + 1}/${initDate.getFullYear()}`;
 
+    console.log(data);
+
     return (
         <div className={styles.systemMain}>
             <div className={styles.systemMainContainerMain}>
@@ -51,8 +53,8 @@ const SystemMain = () => {
                         <div className={styles.notificationTableRow}>
                             <div className={styles.noticationTableColumns}>
                                 <div className={styles.notificationTableColumnHeader}><p>Xiaomi</p></div>
-                                <div className={styles.notificationTableColumn}><p>1</p></div>
-                                <div className={styles.notificationTableColumn}><p>2</p></div>
+                                <div className={styles.notificationTableColumn}><p>N/A</p></div>
+                                <div className={styles.notificationTableColumn}><p>{data.xiaomiCount}</p></div>
                                 <Link to="/xiaomi" className={styles.notificationTableColumn}>Check</Link>
                             </div>
                         </div>
