@@ -61,16 +61,16 @@ const SystemMain = () => {
                         <div className={styles.notificationTableRow}>
                             <div className={styles.noticationTableColumns}>
                                 <div className={styles.notificationTableColumnHeader}><p>Contact</p></div>
-                                <div className={styles.notificationTableColumn}><p>2</p></div>
-                                <div className={styles.notificationTableColumn}><p>7</p></div>
-                                <Link to="/contact-query" className={styles.notificationTableColumn}>Check</Link>
+                                <div className={styles.notificationTableColumn}><p>N/A</p></div>
+                                <div className={styles.notificationTableColumn}><p>{data.contactCount}</p></div>
+                                <Link to="/contact" className={styles.notificationTableColumn}>Check</Link>
                             </div>
                         </div>
                         <div className={styles.notificationTableRow}>
                             <div className={styles.noticationTableColumns}>
                                 <div className={styles.notificationTableColumnHeader}><p>Registred user</p></div>
-                                <div className={styles.notificationTableColumn}><p>4</p></div>
-                                <div className={styles.notificationTableColumn}><p>10</p></div>
+                                <div className={styles.notificationTableColumn}><p>N/A</p></div>
+                                <div className={styles.notificationTableColumn}><p>{data.registeredUserCount}</p></div>
                                 <Link to="/registered-user" className={styles.notificationTableColumn}>Check</Link>
                             </div>
                         </div>

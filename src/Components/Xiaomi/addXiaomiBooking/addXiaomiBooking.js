@@ -92,7 +92,9 @@ const AddXiaomiBooking = () => {
                 </div>
                 <form className={styles.xiaomiBookingForm}>
                     <div className={styles.xiaomiBookingFormContainer} style={{border: 'none'}}>
-                        <select defaultValue="Select an option" onChange={(e) => setService(e.target.value)}>
+                        <select defaultValue="Select an option" 
+                                onChange={(e) => setService(e.target.value)}
+                                className={styles.xiaomiSelect}>
                             <option disabled>Select an option</option>
                             <option>Brake adjustment</option>
                             <option>Brake pads with fittings</option>
@@ -111,7 +113,7 @@ const AddXiaomiBooking = () => {
                     <div className={styles.xiaomiBookingFormContainer}>
                         <input type="text"
                                className={styles.xiaomiBookingInput}
-                               placeholder="Select date"
+                               placeholder="Booking date"
                                onChange={(e) => setDate(e.target.value)}/>
                         <FontAwesomeIcon icon={faCalendar} className={styles.xiaomiIcon}/>
                     </div>
