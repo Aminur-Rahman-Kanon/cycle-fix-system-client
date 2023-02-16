@@ -77,8 +77,8 @@ const SystemMain = () => {
                         <div className={styles.notificationTableRow}>
                             <div className={styles.noticationTableColumns}>
                                 <div className={styles.notificationTableColumnHeader}><p>Feedback</p></div>
-                                <div className={styles.notificationTableColumn}><p>2</p></div>
-                                <div className={styles.notificationTableColumn}><p>20</p></div>
+                                <div className={styles.notificationTableColumn}><p>N/A</p></div>
+                                <div className={styles.notificationTableColumn}><p>{data.feedbackCount}</p></div>
                                 <Link to="/feedback" className={styles.notificationTableColumn}>Check</Link>
                             </div>
                         </div>
