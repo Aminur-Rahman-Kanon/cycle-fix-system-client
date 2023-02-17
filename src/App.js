@@ -64,16 +64,12 @@ function App() {
     then(([bookingData, camsData, xiaomiData, contactData, feedbackData, registeredUserData]) => {
       setSpinner(false);
       setBookings(bookingData.data);
-      setCams(camsData.data);
-      setCamsCount(camsData.data.length)
-      setXiaomi(xiaomiData.data);
-      setXiaomiCount(xiaomiData.data.length);
-      setContact(contactData.data);
-      setContactCount(contactData.data.length);
-      setFeedback(feedbackData.data);
       setBookingCount(feedbackData.data.length);
+      setCams(camsData.data);
+      setXiaomi(xiaomiData.data);
+      setContact(contactData.data);
+      setFeedback(feedbackData.data);
       setRegisteredUser(registeredUserData.data);
-      setRegisteredUserCount(registeredUserData.data.length);
     })
   }, [])
 
@@ -99,7 +95,7 @@ function App() {
       <Spinners spinner={spinner} />
       <SystemStatus error={error} />
       <Topbar />
-      <DataContainer.Provider value={{bookings, contact, contactCount, bookingCount, todayCount, cams, camsCount, xiaomi, xiaomiCount, feedback, feedbackCount, registeredUser, registeredUserCount}}>
+      <DataContainer.Provider value={{bookings, contact, bookingCount, cams, xiaomi, feedback, registeredUser}}>
         <Routes>
           <Route path='/' element={<SystemMain />}/>
           <Route path='/booking' element={<Bookings />}/>

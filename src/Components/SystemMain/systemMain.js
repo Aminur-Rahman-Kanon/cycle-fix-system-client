@@ -11,7 +11,7 @@ const SystemMain = () => {
 
     const date = `${initDate.getDate()}/${initDate.getMonth() + 1}/${initDate.getFullYear()}`;
 
-    console.log(data);
+    console.log(data.feedback.length);
 
     return (
         <div className={styles.systemMain}>
@@ -46,7 +46,7 @@ const SystemMain = () => {
                             <div className={styles.noticationTableColumns}>
                                 <div className={styles.notificationTableColumnHeader}><p>Cams query</p></div>
                                 <div className={styles.notificationTableColumn}><p>N/A</p></div>
-                                <div className={styles.notificationTableColumn}><p>{data.camsCount}</p></div>
+                                <div className={styles.notificationTableColumn}><p>{data.cams.length}</p></div>
                                 <Link to="/cams-query" className={styles.notificationTableColumn}>Check</Link>
                             </div>
                         </div>
@@ -54,7 +54,7 @@ const SystemMain = () => {
                             <div className={styles.noticationTableColumns}>
                                 <div className={styles.notificationTableColumnHeader}><p>Xiaomi</p></div>
                                 <div className={styles.notificationTableColumn}><p>N/A</p></div>
-                                <div className={styles.notificationTableColumn}><p>{data.xiaomiCount}</p></div>
+                                <div className={styles.notificationTableColumn}><p>{data.xiaomi.length}</p></div>
                                 <Link to="/xiaomi" className={styles.notificationTableColumn}>Check</Link>
                             </div>
                         </div>
@@ -62,7 +62,7 @@ const SystemMain = () => {
                             <div className={styles.noticationTableColumns}>
                                 <div className={styles.notificationTableColumnHeader}><p>Contact</p></div>
                                 <div className={styles.notificationTableColumn}><p>N/A</p></div>
-                                <div className={styles.notificationTableColumn}><p>{data.contactCount}</p></div>
+                                <div className={styles.notificationTableColumn}><p>{data.contact.length}</p></div>
                                 <Link to="/contact" className={styles.notificationTableColumn}>Check</Link>
                             </div>
                         </div>
@@ -70,7 +70,7 @@ const SystemMain = () => {
                             <div className={styles.noticationTableColumns}>
                                 <div className={styles.notificationTableColumnHeader}><p>Registred user</p></div>
                                 <div className={styles.notificationTableColumn}><p>N/A</p></div>
-                                <div className={styles.notificationTableColumn}><p>{data.registeredUserCount}</p></div>
+                                <div className={styles.notificationTableColumn}><p>{data.registeredUser.length}</p></div>
                                 <Link to="/registered-user" className={styles.notificationTableColumn}>Check</Link>
                             </div>
                         </div>
@@ -78,7 +78,7 @@ const SystemMain = () => {
                             <div className={styles.noticationTableColumns}>
                                 <div className={styles.notificationTableColumnHeader}><p>Feedback</p></div>
                                 <div className={styles.notificationTableColumn}><p>N/A</p></div>
-                                <div className={styles.notificationTableColumn}><p>{data.feedbackCount}</p></div>
+                                <div className={styles.notificationTableColumn}><p>{data.feedback.length}</p></div>
                                 <Link to="/feedback" className={styles.notificationTableColumn}>Check</Link>
                             </div>
                         </div>
