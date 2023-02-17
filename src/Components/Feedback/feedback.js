@@ -30,7 +30,7 @@ const Feedback = () => {
 
     const deleteHandler = (email) => {
         console.log(email);
-        fetch('https://cycle-fix-system-server.onrender.com/delete-contact-query', {
+        fetch('https://cycle-fix-system-server.onrender.com/delete-feedback', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -105,9 +105,14 @@ const Feedback = () => {
                     <p className={styles.CamsQueryP}>{items.email}</p>
                 </div>
                 <div className={styles.CamsQueryItem}>
-                    <h4 className={styles.CamsQueryH4}>Phone:</h4>
-                    <p className={styles.CamsQueryP}>{items.phone}</p>
+                    <h4 className={styles.CamsQueryH4}>Rating:</h4>
+                    <p className={styles.CamsQueryP}>{items.rating}</p>
                 </div>
+                <div className={styles.CamsQueryItem}>
+                    <h4 className={styles.CamsQueryH4}>Comment:</h4>
+                    <p className={styles.CamsQueryP}>{items.comment}</p>
+                </div>
+                <button className={styles.deleteBtn} onClick={ () => deleteHandler(items.email) }>Delete</button>
             </div>)
         }
     }
