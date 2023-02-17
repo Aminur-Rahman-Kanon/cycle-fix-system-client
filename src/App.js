@@ -26,25 +26,15 @@ function App() {
 
   const [xiaomi, setXiaomi] = useState([]);
 
-  const [camsCount, setCamsCount] = useState(0);
-
   const [bookingCount, setBookingCount] = useState(0);
 
   const [todayCount, setTodayCount] = useState(0);
-
-  const [xiaomiCount, setXiaomiCount] = useState(0);
   
   const [contact, setContact] = useState([]);
 
-  const [contactCount, setContactCount] = useState(0);
-
   const [feedback, setFeedback] = useState([]);
 
-  const [feedbackCount, setFeedbackCount] = useState(0);
-
   const [registeredUser, setRegisteredUser] = useState([]);
-
-  const [registeredUserCount, setRegisteredUserCount] = useState(0);
 
   const [spinner, setSpinner] = useState(false);
 
@@ -95,7 +85,7 @@ function App() {
       <Spinners spinner={spinner} />
       <SystemStatus error={error} />
       <Topbar />
-      <DataContainer.Provider value={{bookings, contact, bookingCount, cams, xiaomi, feedback, registeredUser}}>
+      <DataContainer.Provider value={{bookings, contact, bookingCount, todayCount ,cams, xiaomi, feedback, registeredUser}}>
         <Routes>
           <Route path='/' element={<SystemMain />}/>
           <Route path='/booking' element={<Bookings />}/>

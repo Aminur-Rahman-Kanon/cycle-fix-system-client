@@ -11,8 +11,6 @@ const SystemMain = () => {
 
     const date = `${initDate.getDate()}/${initDate.getMonth() + 1}/${initDate.getFullYear()}`;
 
-    console.log(data.feedback.length);
-
     return (
         <div className={styles.systemMain}>
             <div className={styles.systemMainContainerMain}>
